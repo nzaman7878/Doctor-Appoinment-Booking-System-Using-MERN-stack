@@ -25,8 +25,7 @@ const addDoctor = async (req, res) => {
     // Upload image to Cloudinary
     let imageUrl = "";
     if (imageFile) {
-      const uploadResult = await cloudinary.uploader.upload(imageFile.path, {
-        folder: "doctors", // optional folder name
+      const uploadResult = await cloudinary.uploader.upload(imageFile.path, { 
         resource_type: "image",
       });
       imageUrl = uploadResult.secure_url;
@@ -36,14 +35,16 @@ const addDoctor = async (req, res) => {
     const newDoctor = new Doctor({
       name,
       email,
+      image: imageUrl,
       password: hashedPassword,
       speciality,
       degree,
       experience,
       about,
       fees,
-      address,
-      image: imageUrl,
+      address:JSON.parse(address),
+      date:Date.now()
+      
     });
 
     await newDoctor.save();
