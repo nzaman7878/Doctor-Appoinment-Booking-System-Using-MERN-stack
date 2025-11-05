@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
         address : {type:Object, default:{line1:'', line2:''}},
         gender : {type:String, default:"Not selected"},
         dob : {type:String, default:"Not selected"},
-        phone : {type:String, default:"000000000"},
+        phone : {type:String, default:"0987654321"},
         
         
     }
