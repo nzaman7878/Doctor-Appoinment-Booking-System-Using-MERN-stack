@@ -4,11 +4,22 @@ import { AppContext } from '../context/AppContext'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
+
 const MyProfile = () => {
 
   const { userData, setUserData, token, backendUrl, loadUserProfileData } = useContext(AppContext)
   const [isEdit, setIsEdit] = useState(false)
   const [image, setImage] = useState(null)
+
+  // Helper function to format date for input
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
   const updateUserProfileData = async () => {
     try {
@@ -93,7 +104,7 @@ const MyProfile = () => {
           <input
             className="text-2xl font-semibold text-center border-b-2 border-blue-300 focus:outline-none focus:border-blue-500 bg-transparent"
             type="text"
-            value={userData.name}
+            value={userData.name || ''}
             onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}  
           />
         ) : (
@@ -122,7 +133,7 @@ const MyProfile = () => {
               <input
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                 type="text"
-                value={userData.phone}
+                value={userData.phone || ''}
                 onChange={(e) => setUserData(prev => ({ ...prev, phone: e.target.value }))}  
               />
             ) : (
@@ -139,7 +150,7 @@ const MyProfile = () => {
                   className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   type="text"
                   placeholder="Address Line 1"
-                  value={userData.address.line1}
+                  value={userData.address?.line1 || ''}
                   onChange={(e) => setUserData(prev => ({
                     ...prev,
                     address: { ...prev.address, line1: e.target.value }
@@ -149,7 +160,7 @@ const MyProfile = () => {
                   className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   type="text"
                   placeholder="Address Line 2"
-                  value={userData.address.line2}
+                  value={userData.address?.line2 || ''}
                   onChange={(e) => setUserData(prev => ({
                     ...prev,
                     address: { ...prev.address, line2: e.target.value }
@@ -158,7 +169,7 @@ const MyProfile = () => {
               </div>
             ) : (
               <div className="text-gray-800 bg-gray-50 p-2 rounded">
-                {userData.address.line1} <br /> {userData.address.line2}
+                {userData.address?.line1 || ''} <br /> {userData.address?.line2 || ''}
               </div>
             )}
           </div>
@@ -178,14 +189,14 @@ const MyProfile = () => {
             {isEdit ? (
               <select
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                value={userData.gender}
+                value={userData.gender || 'Male'}
                 onChange={(e) => setUserData(prev => ({ ...prev, gender: e.target.value }))}  
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
             ) : (
-              <p className="text-gray-800 bg-gray-50 p-2 rounded">{userData.gender}</p>
+              <p className="text-gray-800 bg-gray-50 p-2 rounded">{userData.gender || 'Not specified'}</p>
             )}
           </div>
 
@@ -196,16 +207,16 @@ const MyProfile = () => {
               <input
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                 type="date"
-                value={userData.dob}
+                value={formatDateForInput(userData.dob)}
                 onChange={(e) => setUserData(prev => ({ ...prev, dob: e.target.value }))}  
               />
             ) : (
               <p className="text-gray-800 bg-gray-50 p-2 rounded">
-                {new Date(userData.dob).toLocaleDateString('en-IN', {
+                {userData.dob ? new Date(userData.dob).toLocaleDateString('en-IN', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
-                })}
+                }) : 'Not specified'}
               </p>
             )}
           </div>
