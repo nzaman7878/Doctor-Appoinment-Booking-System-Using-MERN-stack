@@ -93,6 +93,7 @@ const AppContextProvider = ({ children }) => {
   // Memoized context value
   const value = useMemo(() => ({
     doctors,
+    getDoctorsData,
     currencySymbol,
     token,
     setToken,
