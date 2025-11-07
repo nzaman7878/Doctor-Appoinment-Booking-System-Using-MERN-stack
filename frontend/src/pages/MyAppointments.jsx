@@ -4,7 +4,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const MyAppointments = () => {
-  const { backendUrl, token } = useContext(AppContext)
+  const { backendUrl, token , getDoctorsData} = useContext(AppContext)
   const [appointments, setAppointment] = useState([])
 
 
@@ -32,6 +32,28 @@ const MyAppointments = () => {
       toast.error(error.message)
     }
   }
+
+  const cancelAppointments = async (appointmentId) => {
+  try {
+    
+    const { data } = await axios.post(
+      backendUrl + '/api/user/cancel-appointment',
+      { appointmentId },
+      { headers: {token}}
+    )
+
+    if (data.success) {
+      toast.success(data.message)
+      getUserAppointments() 
+      getDoctorsData()
+    } else {
+      toast.error(data.message)
+    }
+  } catch (error) {
+    console.log(error)
+    toast.error(error.message)
+  }
+}
 
   useEffect(() => {
     if (token) {
@@ -82,12 +104,13 @@ const MyAppointments = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-col gap-2 w-full sm:w-48">
-                <button className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:border-indigo-600">
+                {!item.cancelled  && <button className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:border-indigo-600">
                   Pay Online
-                </button>
-                <button className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-red-600 hover:text-white hover:border-red-600">
+                </button>}
+                {!item.cancelled && <button  onClick={() => cancelAppointments(item._id)} className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-red-600 hover:text-white hover:border-red-600">
                   Cancel Appointment
-                </button>
+                </button> }
+                {item.cancelled && <button className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 bg-red-600 text-white ">Appoinment cancelled</button>}
               </div>
             </div>
           ))
