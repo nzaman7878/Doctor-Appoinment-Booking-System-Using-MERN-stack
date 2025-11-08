@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import {v2 as cloudinary} from 'cloudinary'
 import appointmentModel from '../models/appoointmentModel.js'
 import doctorModel from '../models/doctorModel.js'
-
+import razorpay from 'razorpay'
 
 // API to register user
 
@@ -274,5 +274,62 @@ const cancelAppointment = async (req, res) => {
   }
 }
 
+const razorpayInstance = new razorpay({
+  key_id:process.env.RAZORPAY_KEY_ID,
+  key_secret:process.env.RAZORPAY_KEY_SECRET
+})
 
-export {registerUser, loginUser, getProfile, updateProfile , bookAppointment , listAppointment , cancelAppointment } 
+// API to make payment of appointment using razorpay
+
+const paymentRazorpay = async (req, res) => {
+  try {
+    const { appointmentId } = req.body
+    const userId = req.userId 
+
+    // Validate required fields
+    if (!appointmentId) {
+      return res.json({ success: false, message: "Appointment ID required" })
+    }
+
+    const appointmentData = await appointmentModel.findById(appointmentId)
+
+    // Check if appointment exists
+    if (!appointmentData) {
+      return res.json({ success: false, message: "Appointment not found" })
+    }
+
+    // Check if appointment is cancelled
+    if (appointmentData.cancelled) {
+      return res.json({ success: false, message: "Appointment cancelled" })
+    }
+
+    // Verify appointment belongs to user
+    if (appointmentData.userId !== userId) {
+      return res.json({ success: false, message: "Unauthorized action" })
+    }
+
+    // Check if already paid
+    if (appointmentData.payment) {
+      return res.json({ success: false, message: "Already paid" })
+    }
+
+    // Creating options for razorpay payment
+    const options = {
+      amount: appointmentData.amount * 100,  
+      currency: process.env.CURRENCY,
+      receipt: appointmentId,
+    }
+
+    // Creation of an order
+    const order = await razorpayInstance.orders.create(options)
+    
+    res.json({ success: true, order })
+
+  } catch (error) {
+    console.log(error)
+    res.json({ success: false, message: error.message })
+  }
+}
+
+  
+export {registerUser, loginUser, getProfile, updateProfile , bookAppointment , listAppointment , cancelAppointment ,paymentRazorpay } 
