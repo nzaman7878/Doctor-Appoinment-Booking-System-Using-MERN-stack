@@ -6,7 +6,7 @@ import {v2 as cloudinary} from 'cloudinary'
 import appointmentModel from '../models/appoointmentModel.js'
 import doctorModel from '../models/doctorModel.js'
 import razorpay from 'razorpay'
-
+import crypto from 'crypto'  // Add this at top
 // API to register user
 
 const registerUser = async (req, res) => {
@@ -334,27 +334,61 @@ const paymentRazorpay = async (req, res) => {
 // API to verify payment of razorpay
 
 const verifyRazorpay = async (req, res) => {
-
   try {
-    const {razorpay_order_id} = req.body
-    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
-    
-    if (orderInfo.status === 'paid'){
-      await appointmentModel.findByIdAndUpdate(orderInfo.receipt,{payment:true})
-      res.json({success:true, message:"Payment Successful"})
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body
+    const userId = req.userId
 
-    } else {
-
-      res.json({success: false, message:"Payment Failed"})
-
+    // Validate required fields
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.json({ success: false, message: "Missing payment details" })
     }
 
+    // CRITICAL: Verify signature
+    const body = razorpay_order_id + "|" + razorpay_payment_id
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(body.toString())
+      .digest('hex')
 
-  }  catch (error) {
+    // If signature doesn't match, payment is fake
+    if (expectedSignature !== razorpay_signature) {
+      return res.json({ success: false, message: "Payment verification failed" })
+    }
+
+    // Now fetch order (this is additional verification)
+    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
+
+    if (!orderInfo) {
+      return res.json({ success: false, message: "Order not found" })
+    }
+
+    const appointmentData = await appointmentModel.findById(orderInfo.receipt)
+
+    if (!appointmentData) {
+      return res.json({ success: false, message: "Appointment not found" })
+    }
+
+    if (appointmentData.userId !== userId) {
+      return res.json({ success: false, message: "Unauthorized action" })
+    }
+
+    if (appointmentData.payment) {
+      return res.json({ success: false, message: "Already paid" })
+    }
+
+    if (orderInfo.status === 'paid') {
+      await appointmentModel.findByIdAndUpdate(orderInfo.receipt, { payment: true })
+      res.json({ success: true, message: "Payment Successful" })
+    } else {
+      res.json({ success: false, message: "Payment Failed" })
+    }
+
+  } catch (error) {
     console.log(error)
     res.json({ success: false, message: error.message })
   }
 }
+
 
   
 export {registerUser, loginUser, getProfile, updateProfile , bookAppointment , listAppointment , cancelAppointment ,paymentRazorpay ,verifyRazorpay } 
