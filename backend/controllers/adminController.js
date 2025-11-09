@@ -3,7 +3,7 @@ import Doctor from "../models/doctorModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import jwt from "jsonwebtoken"
 import appointmentModel from '../models/appoointmentModel.js'
-import userModel from '../models/userModel'
+import userModel from '../models/userModel.js'
 import doctorModel from "../models/doctorModel.js";
 
 // API for adding doctor
