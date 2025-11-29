@@ -126,34 +126,47 @@ const appointmentsDoctor = async (req, res) => {
 
 // API to mark appointment completed for doctor panel
 
-const appointmentComplete = async (req, res)=> {
-
+const appointmentComplete = async (req, res) => {
   try {
-
-     const { docId } = req;  
+    const { docId } = req;  
     const { appointmentId } = req.body;
-    
 
-    const appointmentData = await appointmentModel.findById(appointmentId)
+    const appointmentData = await appointmentModel.findById(appointmentId);
 
-    if(appointmentData && appointmentData.docId === docId) {
-      await appointmentModel.findByIdAndUpdate(appointmentId, {isCompleted: true})
-      return res.json({success:true, message: 'Appoinment Completed'})
-    } else {
-      return res.json({success:false, message: 'Mark Failed'})
+    if (!appointmentData) {
+      return res.status(404).json({
+        success: false,
+        message: 'Appointment not found'
+      });
     }
 
+    if (appointmentData.docId.toString() !== docId.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Unauthorized: You can only complete your own appointments'
+      });
+    }
 
     
-  }  catch (error) {
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      isCompleted: true,
+      payment: true 
+    });
+
+    return res.json({
+      success: true, 
+      message: 'Appointment Completed'
+    });
+
+  } catch (error) {
     console.error(error); 
     res.status(500).json({ 
       success: false,
       message: error.message
     });
   }
+};
 
-}
 
 // API to appointment cancel for doctor panel
 
