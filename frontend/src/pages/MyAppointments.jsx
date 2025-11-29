@@ -162,13 +162,13 @@ const MyAppointments = () => {
 
          
               <div className="flex flex-col gap-2 w-full sm:w-48">
-                {!item.cancelled && item.payment && (
+                {!item.cancelled && item.payment && !item.isCompleted && (
                   <button className="text-sm font-medium bg-green-500 text-white border border-green-500 rounded-lg py-2 px-4 cursor-not-allowed">
                     Paid
                   </button>
                 )}
                 
-                {!item.cancelled && !item.payment && (
+                {!item.cancelled && !item.payment && !item.isCompleted && (
                   <button
                     onClick={() => appointmentRazorpay(item._id)}
                     className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:border-indigo-600"
@@ -177,18 +177,26 @@ const MyAppointments = () => {
                   </button>
                 )}
                 
-                {!item.cancelled && !item.payment && (
+                {!item.cancelled && !item.payment && !item.isCompleted && (
                   <button
                     onClick={() => cancelAppointments(item._id)}
                     className="text-sm font-medium text-gray-700 border border-gray-300 rounded-lg py-2 px-4 transition-all duration-300 hover:bg-red-600 hover:text-white hover:border-red-600"
                   >
                     Cancel Appointment
                   </button>
+
+                  
                 )}
                 
-                {item.cancelled && (
+                {item.cancelled && !item.isCompleted && (
                   <button className="text-sm font-medium bg-red-600 text-white border border-red-600 rounded-lg py-2 px-4 cursor-not-allowed">
                     Appointment Cancelled
+                  </button>
+                )}
+
+                {item.isCompleted && (
+                  <button className="text-sm font-medium bg-green-500 text-white border border-green-500 rounded-lg py-2 px-4 cursor-not-allowed">
+                    Completed
                   </button>
                 )}
               </div>
