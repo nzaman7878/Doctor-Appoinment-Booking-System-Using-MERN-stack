@@ -235,7 +235,95 @@ const doctorDashboard = async (req, res) => {
 };
 
 
+// API to get doctor profile for doctor panel
+
+const doctorProfile = async (req, res) => {
+  try {
+    
+    const docId = req.docId;
+
+    if (!docId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Doctor ID is required',
+      });
+    }
+
+    const profileData = await doctorModel
+      .findById(docId)
+      .select('-password');  // hide password
+
+    if (!profileData) {
+      return res.status(404).json({
+        success: false,
+        message: 'Doctor not found',
+      });
+    }
+
+    res.json({ success: true, profileData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 
+// API to update doctor profile data from doctor panel 
+const updateDoctorProfile = async (req, res) => {
+  try {
+    const docId = req.docId; 
+    const { fees, address, available } = req.body;
 
-export { changeAvailability, doctorList, loginDoctor ,appointmentsDoctor ,appointmentComplete, appointmentCancel, doctorDashboard };
+    if (!docId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Doctor ID is required',
+      });
+    }
+
+    
+    const updateData = {};
+    if (fees !== undefined) updateData.fees = fees;
+    if (address !== undefined) updateData.address = address;
+    if (available !== undefined) updateData.available = available;
+
+    const updatedDoctor = await doctorModel.findByIdAndUpdate(
+      docId,
+      updateData,
+      { new: true }  
+    ).select('-password');
+
+    if (!updatedDoctor) {
+      return res.status(404).json({
+        success: false,
+        message: 'Doctor not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Profile Updated',
+      profileData: updatedDoctor,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+export { changeAvailability,
+   doctorList, 
+   loginDoctor ,
+   appointmentsDoctor ,
+   appointmentComplete,
+   appointmentCancel,
+   doctorDashboard,
+   doctorProfile,
+   updateDoctorProfile};
