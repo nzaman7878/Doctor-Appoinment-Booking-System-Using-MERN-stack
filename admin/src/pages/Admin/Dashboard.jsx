@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import { AdminContext } from "../../context/AdminContext"
 import { assets } from '../../assets/assets'
 import { AppContext } from "../../context/AppContext"
+import { motion } from 'framer-motion'
 
 const Dashboard = () => {
   const { aToken, getDashData, cancelAppointment, dashData } = useContext(AdminContext)
@@ -13,72 +14,90 @@ const Dashboard = () => {
     }
   }, [aToken, getDashData]) 
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    hover: { scale: 1.05, transition: { type: "spring", stiffness: 300 } }
+  }
+
   return dashData && (
-    <div className="m-5">
-      <div className="flex flex-wrap gap-3">
+    <div className="m-5 mt-8 space-y-8 pb-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Stats Cards */}
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.doctor_icon} alt="" />
-          <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.doctors}</p>
-            <p className="text-gray-400">Doctors</p>
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+            <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.doctor_icon} alt="Doctors" />
           </div>
-        </div>
+          <div>
+            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.doctors}</p>
+            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Doctors</p>
+          </div>
+        </motion.div>
 
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.appointments_icon} alt="" />
-          <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.appointments}</p>
-            <p className="text-gray-400">Appointments</p>
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.1 }} className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+            <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.appointments_icon} alt="Appointments" />
           </div>
-        </div>
+          <div>
+            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.appointments}</p>
+            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Appointments</p>
+          </div>
+        </motion.div>
 
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.patients_icon} alt="" />
-          <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.patients}</p>
-            <p className="text-gray-400">Patients</p>
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.2 }} className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+            <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.patients_icon} alt="Patients" />
           </div>
-        </div>
+          <div>
+            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.patients}</p>
+            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Patients</p>
+          </div>
+        </motion.div>
       </div>
 
       {/* Latest Bookings */}
-      <div className="bg-white">
-        <div className="flex items-center gap-2.5 px-4 py-4 mt-10 rounded-t border">
-          <img src={assets.list_icon} alt="" />
-          <p className="font-semibold">Latest Bookings</p>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-panel dark:glass-panel-dark rounded-2xl overflow-hidden">
+        <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+          <img src={assets.list_icon} alt="" className="dark:invert opacity-70" />
+          <p className="font-semibold text-lg text-slate-800 dark:text-slate-100">Latest Bookings</p>
         </div>
 
-        <div className="pt-4 border border-t-0">
+        <div className="divide-y divide-slate-100 dark:divide-slate-700">
           {dashData.latestAppointments.map((item, index) => (
-            <div 
-              className="flex items-center px-6 py-3 gap-3 hover:bg-gray-100" 
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 + (index * 0.05) }}
+              className="flex items-center px-6 py-4 gap-4 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 transition-colors duration-200" 
               key={index}
             >
-              <img className="rounded-full w-10" src={item.docData.image} alt="" />
+              <img className="rounded-full w-12 h-12 object-cover border-2 border-white dark:border-slate-700 shadow-sm" src={item.docData.image} alt="" />
               <div className="flex-1 text-sm">
-                <p className="text-gray-800 font-medium">{item.docData.name}</p>
-                <p className="text-gray-600">{slotDateFormat(item.slotDate)}</p>
+                <p className="text-slate-800 dark:text-slate-100 font-semibold text-base">{item.docData.name}</p>
+                <p className="text-slate-500 dark:text-slate-300 mt-0.5">{slotDateFormat(item.slotDate)}</p>
               </div>
               {item.cancelled ? (
-                <p className="text-red-400 text-xs font-medium">Cancelled</p>
+                <span className="px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-full text-xs font-semibold">Cancelled</span>
               ) : item.isCompleted ? (
-                <p className="text-green-500 text-xs font-medium">Completed</p>
+                <span className="px-3 py-1 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-full text-xs font-semibold">Completed</span>
               ) : (
-                <img 
+                <motion.button 
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     cancelAppointment(item._id)
                     getDashData()
                   }} 
-                  className="w-10 cursor-pointer" 
-                  src={assets.cancel_icon} 
-                  alt="Cancel" 
-                />
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 transition-colors"
+                  title="Cancel Appointment"
+                >
+                  <img className="w-5 dark:invert" src={assets.cancel_icon} alt="Cancel" />
+                </motion.button>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

@@ -1,9 +1,24 @@
-import { createContext } from "react";
+import { createContext, useState, useEffect } from "react";
 
 
 export const AppContext = createContext()
 
 const AppContextProvider = (props) => {
+
+  const [theme, setTheme] = useState(localStorage.getItem('adminTheme') || 'light')
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    localStorage.setItem('adminTheme', theme)
+  }, [theme])
 
 const calculateAge = (dob) => {
   const birthDate = new Date(dob)
@@ -28,7 +43,8 @@ const calculateAge = (dob) => {
     const value = {
         calculateAge,
         slotDateFormat,
-
+        theme,
+        toggleTheme
     }
     return (
         <AppContext.Provider value={value}>

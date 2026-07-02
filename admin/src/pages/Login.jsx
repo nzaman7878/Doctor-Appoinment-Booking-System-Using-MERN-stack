@@ -4,6 +4,7 @@ import { AdminContext } from '../context/AdminContext.jsx'
 import axios  from 'axios'
 import { toast } from 'react-toastify'
 import { DoctorContext } from '../context/DoctorContext.jsx'
+import { motion } from 'framer-motion'
 
 const Login = () => {
     const [state,setState] = useState('Admin')
@@ -45,32 +46,81 @@ const Login = () => {
         }
     }
 
-
-
-
-
   return (
-    <div>
-        <form onSubmit={onSubmitHandler}  className='min-h-[80vh] flex items-center'>
-            <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5e5e5e] text-sm shadow-lg'>
-                <p className='text-2xl font-semibold m-auto'><span className='text-primary'> {state} </span> Login</p>
-                <div className='w-full'>
-                    <p>Email</p>
-                    <input onChange={(e)=>setEmail(e.target.value)} value={email} className='border border-[#DADADA] rounded w-full p-2 mt-1' type="text" required/>
-                </div>
-                  <div className='w-full'>
-                    <p>Password</p>
-                    <input onChange={(e)=>setPassword(e.target.value)} value={password} className='border border-[#DADADA] rounded w-full p-2 mt-1' type="password" required/>
-                </div>
-                <button className='bg-primary text-white w-full py-2 rounded-md cursor-pointer text-base'>Login</button>
-            {
-                state === 'Admin'
-                ? <p>Doctor Login ? <span className='text-primary underline cursor-pointer' onClick={()=>setState('Doctor')}>Click here</span></p>
-                : <p>Admin Login ? <span className='text-primary underline cursor-pointer' onClick={()=>setState('Admin')}>Click here</span></p>
-            }
-            
-            </div>
-        </form>
+    <div className="min-h-screen flex items-center justify-center relative">
+      {/* Decorative background blobs */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-secondary/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+
+      <motion.form 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        onSubmit={onSubmitHandler} 
+        className="flex flex-col gap-5 items-start p-8 min-w-[340px] sm:min-w-96 glass-panel dark:glass-panel-dark rounded-2xl text-slate-600 dark:text-slate-300 w-full sm:w-auto z-10"
+      >
+        <div className="w-full mb-2">
+          <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">
+            <span className='text-primary'> {state} </span> Login
+          </p>
+          <p className="text-sm mt-2 text-slate-500 dark:text-slate-400">
+            Securely access the dashboard
+          </p>
+        </div>
+
+        <div className="w-full group">
+          <p className="text-sm font-medium mb-1">Email</p>
+          <input
+            className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg w-full p-2.5 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all dark:text-white"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+          />
+        </div>
+
+        <div className="w-full group">
+          <p className="text-sm font-medium mb-1">Password</p>
+          <input
+            className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg w-full p-2.5 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all dark:text-white"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}  
+            value={password}  
+            required
+          />
+        </div>
+        
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          type="submit" 
+          className="premium-gradient-bg text-white w-full py-3 rounded-lg text-base font-medium shadow-md hover:shadow-lg transition-all mt-2"
+        >
+          Login
+        </motion.button>
+
+        {state === "Admin" ? (
+          <p className="text-sm text-center w-full mt-2">
+            Doctor Login?{" "}
+            <span
+              onClick={() => setState("Doctor")}
+              className="text-primary font-medium hover:underline cursor-pointer"
+            >
+              Click here
+            </span>
+          </p>
+        ) : (
+          <p className="text-sm text-center w-full mt-2">
+            Admin Login?{" "}
+            <span
+              onClick={() => setState("Admin")}
+              className="text-primary font-medium hover:underline cursor-pointer"
+            >
+              Click here
+            </span>
+          </p>
+        )}
+      </motion.form>
     </div>
   )
 }
