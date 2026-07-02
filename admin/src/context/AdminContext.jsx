@@ -117,6 +117,39 @@ const getDashData = async () => {
     toast.error(error.message)
   }
 }
+
+const deleteDoctor = async (docId) => {
+  try {
+    const { data } = await axios.post(backendUrl + '/api/admin/delete-doctor', { docId }, { headers: { aToken } });
+    if (data.success) {
+      toast.success(data.message);
+      await getAllDoctors();
+      if (dashData) getDashData();
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+};
+
+const deleteAppointment = async (appointmentId) => {
+  try {
+    const { data } = await axios.post(backendUrl + '/api/admin/delete-appointment', { appointmentId }, { headers: { aToken } });
+    if (data.success) {
+      toast.success(data.message);
+      await getAllAppointments();
+      if (dashData) getDashData();
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+};
+
   const value = {
     aToken,
     setAToken,
@@ -129,6 +162,8 @@ const getDashData = async () => {
     getAllAppointments,
     cancelAppointment,
     dashData, getDashData,
+    deleteDoctor,
+    deleteAppointment,
   };
 
   return (

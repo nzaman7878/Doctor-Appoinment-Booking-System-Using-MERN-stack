@@ -207,4 +207,72 @@ const adminDashboard = async (req,res) => {
 
   
 }
-export { addDoctor, loginAdmin, allDoctors , appointmentsAdmin ,appointmentCancel, adminDashboard };
+// API to delete an appointment completely
+const deleteAppointment = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+
+    if (!appointmentId) {
+      return res.status(400).json({ success: false, message: "Appointment ID required" });
+    }
+
+    const appointmentData = await appointmentModel.findById(appointmentId);
+
+    if (!appointmentData) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    // Free up doctor's slot if appointment is not cancelled or completed yet
+    if (!appointmentData.cancelled && !appointmentData.isCompleted) {
+      const { docId, slotDate, slotTime } = appointmentData;
+      const doctorData = await Doctor.findById(docId);
+
+      if (doctorData) {
+        let slots_booked = doctorData.slots_booked;
+        if (slots_booked[slotDate]) {
+          slots_booked[slotDate] = slots_booked[slotDate].filter((e) => e !== slotTime);
+          await Doctor.findByIdAndUpdate(docId, { slots_booked });
+        }
+      }
+    }
+
+    // Delete the appointment record
+    await appointmentModel.findByIdAndDelete(appointmentId);
+
+    return res.status(200).json({ success: true, message: "Appointment deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// API to delete a doctor completely
+const deleteDoctor = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    if (!docId) {
+      return res.status(400).json({ success: false, message: "Doctor ID required" });
+    }
+
+    const doctorData = await Doctor.findById(docId);
+
+    if (!doctorData) {
+      return res.status(404).json({ success: false, message: "Doctor not found" });
+    }
+
+    // Delete the doctor record
+    await Doctor.findByIdAndDelete(docId);
+
+    // Note: We might want to handle existing appointments for this doctor. 
+    // Usually, we can either delete them or let them remain (but without doctor details). 
+    // For now, we just delete the doctor.
+
+    return res.status(200).json({ success: true, message: "Doctor deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, deleteAppointment, deleteDoctor };
