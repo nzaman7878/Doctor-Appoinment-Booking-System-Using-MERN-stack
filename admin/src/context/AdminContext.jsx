@@ -150,6 +150,25 @@ const deleteAppointment = async (appointmentId) => {
   }
 };
 
+const updateAppointment = async (appointmentId, newDocId, newSlotDate, newSlotTime) => {
+  try {
+    const { data } = await axios.post(backendUrl + '/api/admin/update-appointment', { appointmentId, newDocId, newSlotDate, newSlotTime }, { headers: { aToken } });
+    if (data.success) {
+      toast.success(data.message);
+      await getAllAppointments();
+      if (dashData) getDashData();
+      return true; // Return true to indicate success for the UI to close the modal
+    } else {
+      toast.error(data.message);
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+    return false;
+  }
+};
+
   const value = {
     aToken,
     setAToken,
@@ -164,6 +183,7 @@ const deleteAppointment = async (appointmentId) => {
     dashData, getDashData,
     deleteDoctor,
     deleteAppointment,
+    updateAppointment,
   };
 
   return (

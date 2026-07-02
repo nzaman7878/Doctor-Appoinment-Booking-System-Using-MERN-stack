@@ -275,4 +275,80 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
-export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, deleteAppointment, deleteDoctor };
+// API to update an appointment
+const updateAppointment = async (req, res) => {
+  try {
+    const { appointmentId, newDocId, newSlotDate, newSlotTime } = req.body;
+
+    if (!appointmentId || !newDocId || !newSlotDate || !newSlotTime) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
+    }
+
+    const appointmentData = await appointmentModel.findById(appointmentId);
+
+    if (!appointmentData) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    if (appointmentData.cancelled || appointmentData.isCompleted) {
+      return res.status(400).json({ success: false, message: "Cannot edit cancelled or completed appointments" });
+    }
+
+    // Check if new doctor exists
+    const newDoctorData = await Doctor.findById(newDocId);
+    if (!newDoctorData) {
+      return res.status(404).json({ success: false, message: "New doctor not found" });
+    }
+
+    // Check if new slot is available (unless it's the same doctor and same slot)
+    const isSameDoctorAndSlot = (appointmentData.docId.toString() === newDocId.toString()) && 
+                                (appointmentData.slotDate === newSlotDate) && 
+                                (appointmentData.slotTime === newSlotTime);
+
+    if (!isSameDoctorAndSlot) {
+      let new_slots_booked = newDoctorData.slots_booked || {};
+      if (new_slots_booked[newSlotDate] && new_slots_booked[newSlotDate].includes(newSlotTime)) {
+        return res.status(400).json({ success: false, message: "Selected slot is no longer available" });
+      }
+
+      // Free up old slot
+      const oldDoctorData = await Doctor.findById(appointmentData.docId);
+      if (oldDoctorData) {
+        let old_slots_booked = oldDoctorData.slots_booked;
+        if (old_slots_booked[appointmentData.slotDate]) {
+          old_slots_booked[appointmentData.slotDate] = old_slots_booked[appointmentData.slotDate].filter((e) => e !== appointmentData.slotTime);
+          await Doctor.findByIdAndUpdate(appointmentData.docId, { slots_booked: old_slots_booked });
+        }
+      }
+
+      // Book new slot
+      if (new_slots_booked[newSlotDate]) {
+        new_slots_booked[newSlotDate].push(newSlotTime);
+      } else {
+        new_slots_booked[newSlotDate] = [newSlotTime];
+      }
+      await Doctor.findByIdAndUpdate(newDocId, { slots_booked: new_slots_booked });
+    }
+
+    // Prepare updated doctor info
+    let docInfo = newDoctorData.toObject();
+    delete docInfo.slots_booked;
+    delete docInfo.password;
+
+    // Update appointment record
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      docId: newDocId,
+      docData: docInfo,
+      slotDate: newSlotDate,
+      slotTime: newSlotTime,
+      amount: newDoctorData.fees,
+    });
+
+    return res.status(200).json({ success: true, message: "Appointment updated successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, deleteAppointment, deleteDoctor, updateAppointment };

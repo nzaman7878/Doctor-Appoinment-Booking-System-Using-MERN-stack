@@ -3,12 +3,14 @@ import { AdminContext } from "../../context/AdminContext"
 import { assets } from "../../assets/assets"
 import { AppContext } from "../../context/AppContext"
 import { motion, AnimatePresence } from "framer-motion"
+import EditAppointmentModal from "../../components/EditAppointmentModal"
 
 const AllAppointments = () => {
   const { aToken, appointments, getAllAppointments, cancelAppointment, deleteAppointment, currency } = useContext(AdminContext)
   const { calculateAge , slotDateFormat } = useContext(AppContext)
   
   const [searchTerm, setSearchTerm] = useState('')
+  const [editingAppointment, setEditingAppointment] = useState(null)
 
   useEffect(() => {
     if (aToken) {
@@ -111,15 +113,29 @@ const AllAppointments = () => {
                     ) : item.isCompleted ? (
                       <span className="px-3 py-1 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-full text-xs font-semibold max-w-fit">Completed</span>
                     ) : (
-                      <motion.button 
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => cancelAppointment(item._id)} 
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 transition-colors"
-                        title="Cancel Appointment"
-                      >
-                        <img className="w-5 dark:invert" src={assets.cancel_icon} alt="Cancel" />
-                      </motion.button>
+                      <>
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setEditingAppointment(item)} 
+                          className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-500 transition-colors"
+                          title="Edit Appointment"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                          </svg>
+                        </motion.button>
+                        
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => cancelAppointment(item._id)} 
+                          className="w-10 h-10 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 transition-colors"
+                          title="Cancel Appointment"
+                        >
+                          <img className="w-5 dark:invert" src={assets.cancel_icon} alt="Cancel" />
+                        </motion.button>
+                      </>
                     )}
                     
                     {/* Delete Appointment Button */}
@@ -147,6 +163,16 @@ const AllAppointments = () => {
           </AnimatePresence>
         </div>
       </motion.div>
+      
+      {/* Edit Modal */}
+      <AnimatePresence>
+        {editingAppointment && (
+          <EditAppointmentModal 
+            appointment={editingAppointment} 
+            onClose={() => setEditingAppointment(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
