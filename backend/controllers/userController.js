@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import {v2 as cloudinary} from 'cloudinary'
-import appointmentModel from '../models/appoointmentModel.js'
+import appointmentModel from '../models/appointmentModel.js'
 import doctorModel from '../models/doctorModel.js'
 import razorpay from 'razorpay'
 import crypto from 'crypto'  // Add this at top
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
         //validating strong password
 
         if (password.length < 8){
-            return res.json({success:false, messsage:"Enter a strong a password"})
+            return res.json({success:false, message:"Enter a strong password (min 8 characters)"})
             
         }
 
@@ -65,7 +65,7 @@ const loginUser = async (req,res) => {
         const user = await userModel.findOne({email})
 
         if(!user) {
-            res.json({success:false,message:'User does not exist'})
+            return res.json({success:false,message:'User does not exist'})
         }
         const isMatch = await bcrypt.compare(password,user.password)
 
@@ -178,13 +178,14 @@ const bookAppointment = async (req, res) => {
             return res.json({ success: false, message: 'User not found' })
         }
 
-        delete docData.slots_booked
+        let docInfo = docData.toObject()
+        delete docInfo.slots_booked
 
         const appointmentData = {
             userId,
             docId,
             userData,
-            docData,
+            docData: docInfo,
             amount: docData.fees,
             slotTime,
             slotDate,

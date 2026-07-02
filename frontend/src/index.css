@@ -1,31 +1,72 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 @import "tailwindcss";
 
-*{
-font-family: outfit;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --color-primary: #4f46e5; /* Indigo 600 */
+    --color-primary-light: #818cf8; /* Indigo 400 */
+    --color-primary-dark: #3730a3; /* Indigo 800 */
+    --color-secondary: #0ea5e9; /* Sky 500 */
+    --color-accent: #8b5cf6; /* Violet 500 */
+    
+    --bg-main: #f8fafc; /* Slate 50 */
+    --text-main: #0f172a; /* Slate 900 */
+    --text-muted: #334155; /* Slate 700 for better visibility */
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.85); /* More opaque */
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark {
+    --bg-main: #020617; /* Slate 950 */
+    --text-main: #f8fafc; /* Slate 50 */
+    --text-muted: #94a3b8; /* Slate 400 */
+    --border-color: #1e293b;
+    --card-bg: #0f172a;
+    --glass-bg: rgba(15, 23, 42, 0.8);
+    --glass-border: rgba(30, 41, 59, 0.6);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 }
 
 @theme {
-  --color-primary: #1D8CF0;
-
- 
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
   --grid-cols-auto: repeat(auto-fill, minmax(200px, 1fr));
 }
 
-
-.active hr {
-  @apply block;
+@layer utilities {
+  .glass-panel {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary;
+  }
+  .premium-gradient-bg {
+    @apply bg-gradient-to-br from-primary via-accent to-secondary;
+  }
 }
-
 
 ::-webkit-scrollbar {
   @apply hidden;
-}
-
-@media (max-width: 740px) {
-  .active p {
-    @apply text-white bg-primary;
-  }
 }

@@ -1,53 +1,70 @@
-import React from 'react'
-import { assets } from '../assets/assets_frontend/assets'
-
+import React from 'react';
+import { assets } from '../assets/assets_frontend/assets';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
-    <div className='md:mx-10'>
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={containerVariants}
+      className='md:mx-10 mt-40'
+    >
+      <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 text-sm'>
+        {/* ------------Left Section ---------- */}
+        <motion.div variants={itemVariants}>
+          <img className='mb-6 w-44 cursor-pointer dark:invert' src={assets.logo} alt="DocConnect Logo" />
+          <p className='w-full md:w-2/3 text-slate-500 dark:text-slate-400 leading-relaxed'>
+            “Doctor Appointment System – Your reliable platform for booking medical appointments with trusted doctors anytime, anywhere. Connecting patients and healthcare providers to make healthcare simpler, faster, and more accessible.”
+          </p>
+        </motion.div>
 
-       <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm'>
-         {/* ------------Left Section ---------- */}
+        {/* ------Center Section --------- */}
+        <motion.div variants={itemVariants}>
+          <p className='text-lg font-semibold mb-5 text-slate-800 dark:text-slate-200'>COMPANY</p>
+          <ul className='flex flex-col gap-3 text-slate-500 dark:text-slate-400'>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Home</li>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">About us</li>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Contact us</li>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Privacy policy</li>
+          </ul>
+        </motion.div>
 
-        <div>
-            
-            <img className='mb-5 w-40 ' src={assets.logo}alt="" />
-            <p className='w-full md:w-2/3 text-gray-600 leading-6 '>“Doctor Appointment System – Your reliable platform for booking medical appointments with trusted doctors anytime, anywhere. Connecting patients and healthcare providers to make healthcare simpler, faster, and more accessible.</p>
-
-
-        </div>
-            {/* ------Center Section --------- */}
-
-
-        <div>
-                        <p className='text-xl font-medium mb-5 '>COMPANY</p>
-            <ul className='flex flex-col gap-2 text-gray-500'>
-                <li>Home</li>
-                <li>About us</li>
-                <li>Contact us</li>
-                <li>Privacy policy</li>
-            </ul>
-        </div>
         {/* ----------Right Section ---------- */}
-        <div>
-            <p className='text-xl font-medium mb-5 '>GET IN TOUCH</p>
-            <ul className='flex flex-col gap-2 text-gray-500'>
-                <li>+9170023517345</li>
-                <li>docconnect@gmail.com</li>
-            </ul>
-        </div>
+        <motion.div variants={itemVariants}>
+          <p className='text-lg font-semibold mb-5 text-slate-800 dark:text-slate-200'>GET IN TOUCH</p>
+          <ul className='flex flex-col gap-3 text-slate-500 dark:text-slate-400'>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">+91-700-235-17345</li>
+            <li className="hover:text-primary transition-colors cursor-pointer w-fit">docconnect@gmail.com</li>
+          </ul>
+        </motion.div>
+      </div>
 
+      {/* ------------- Copyright Text ------------- */}
+      <motion.div variants={itemVariants} className="pt-6 border-t border-slate-200 dark:border-slate-800">
+        <p className='py-4 text-sm text-center text-slate-500 dark:text-slate-400'>
+          Copyright 2025 © DocConnect -- All Rights Reserved.
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+};
 
-
-       </div>
-    {/* ------------- Copyright Text ------------- */}
-       <div>
-        <hr />
-        <p className='py-5 text-sm text-center'>Copyright 2025@ DocConect -- All Right Reserved</p>
-       </div>
-
-    </div>
-  )
-}
-
-export default Footer
+export default Footer;

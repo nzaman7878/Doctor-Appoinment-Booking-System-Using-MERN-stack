@@ -1,79 +1,121 @@
-import React, { useContext, useState } from 'react'
-import {assets} from "../assets/assets_frontend/assets"
-import { NavLink, useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from 'react';
+import { assets } from "../assets/assets_frontend/assets";
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showMenu, setShowMenu] = useState(false);
+  const { token, setToken, userData, theme, toggleTheme } = useContext(AppContext);
 
-    const navigate = useNavigate();
-    const [showMenu, setShowMenu] = useState(false)
-    const {token, setToken, userData} = useContext(AppContext)
+  const logout = () => {
+    setToken(false);
+    localStorage.removeItem('token');
+  };
 
-
-    const logout = ()=> {
-        setToken(false)
-        localStorage.removeItem('token')
-    }
+  const navItems = [
+    { name: 'HOME', path: '/' },
+    { name: 'ALL DOCTORS', path: '/doctors' },
+    { name: 'ABOUT', path: '/about' },
+    { name: 'CONTACT', path: '/contact' },
+  ];
 
   return (
-    <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
-        <img onClick={()=>navigate('/')} className='w-44 cursor-pointer' src={assets.logo} alt="" />
-        <ul className='hidden md:flex items-start gap-5 font-medium'>
-            <NavLink to='/'>
-                <li className='py-1'>HOME</li>
-                <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
+    <div className='sticky top-4 z-50 glass-panel flex items-center justify-between text-sm py-4 px-6 mb-8 rounded-full shadow-lg transition-all'>
+      <img
+        onClick={() => navigate('/')}
+        className='w-36 sm:w-44 cursor-pointer hover:opacity-80 transition-opacity dark:invert'
+        src={assets.logo}
+        alt="Logo"
+      />
+      
+      <ul className='hidden md:flex items-center gap-2 font-medium'>
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
+          return (
+            <NavLink key={item.name} to={item.path} className="relative px-4 py-2 rounded-full transition-colors hover:text-primary">
+              <span className="relative z-10">{item.name}</span>
+              {isActive && (
+                <motion.div
+                  layoutId="navbar-indicator"
+                  className="absolute inset-0 bg-primary/10 rounded-full z-0"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
             </NavLink>
-            <NavLink to='/doctors'>
-                <li className='py-1'>ALL DOCTORS</li>
-                <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
-            </NavLink>
-            <NavLink to='/about'>
-                <li className='py-1'>ABOUT</li>
-                <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
-            </NavLink>
-            <NavLink to='/contact'>
-                <li className='py-1'>CONTACT</li>
-                <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
-            </NavLink>
-            
-        </ul>
-        <div className='flex items-center gap-4'>
+          );
+        })}
+      </ul>
 
-            {
-                token && userData ? <div className='flex items-center gap-2 cursor-pointer group relative'>
-                    <img className='w-8 rounded-full ' src={userData.image} alt="" />
+      <div className='flex items-center gap-4'>
+        {token && userData ? (
+          <div className='flex items-center gap-2 cursor-pointer group relative'>
+            <img className='w-9 h-9 rounded-full object-cover border-2 border-primary/20' src={userData.image} alt="User" />
+            <img className='w-2.5 transition-transform group-hover:rotate-180 duration-300' src={assets.dropdown_icon} alt="" />
 
-                    <img className='w-2.5 ' src={assets.dropdown_icon} alt="" />
+            <div className='absolute top-full right-0 pt-4 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
+              <div className='min-w-48 glass-panel rounded-xl flex flex-col gap-2 p-3 shadow-xl border border-white/50 dark:border-slate-700/50'>
+                <p onClick={() => navigate('my-profile')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Profile</p>
+                <p onClick={() => navigate('my-appointments')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Appointments</p>
+                <div className="h-px bg-gray-200 dark:bg-slate-700 my-1"></div>
+                <p onClick={logout} className='hover:bg-red-50 hover:text-red-500 px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-red-900/30'>Logout</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => navigate('/login')} className='premium-gradient-bg text-white px-8 py-3 rounded-full font-light hidden md:block shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-0.5 transition-all duration-300'>
+            Create Account
+          </button>
+        )}
+        
+        <button 
+          onClick={toggleTheme} 
+          className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300"
+          aria-label="Toggle Dark Mode"
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
 
-                    <div className='absolute top-0 right-0 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
-                        <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>
-                            <p onClick={()=>navigate('my-profile')} className='hover:text-black cursor-pointer'>My Profile</p>
-                            <p onClick={()=>navigate('my-appointments')} className='hover:text-black cursor-pointer'>My Appointment</p>
-                            <p onClick={logout} className='hover:text-black cursor-pointer'>Logout</p>
-                        </div>
-                    </div>
+        <img onClick={() => setShowMenu(true)} className='w-6 md:hidden cursor-pointer dark:invert' src={assets.menu_icon} alt="Menu" />
 
-                </div>
-
-                :  <button onClick={()=>navigate('/login')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create a Account</button>
-            }
-        <img onClick={()=>setShowMenu(true)} className='w-6 md:hidden ' src={assets.menu_icon} alt="" />
-           {/* -------- Mobile Menu --------- */}
-           <div className={`${showMenu ? 'fixed w-full ': 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
-           <div className='flex items-center justify-between px-5 py-6'>
-             <img className='w-36' src={assets.logo} alt="" />
-            <img  onClick={()=>setShowMenu(false)} className='w-7 ' src={assets.cross_icon} alt="" />
-           </div>
-           <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg  font-medium'>
-            <NavLink  onClick={()=>setShowMenu(false)} to='/'><p className='px-4 py-2 rounded inline-block'>Home</p></NavLink>
-            <NavLink  onClick={()=>setShowMenu(false)} to='/doctors'><p className='px-4 py-2 rounded inline-block'>ALL DOCTORS</p></NavLink>
-            <NavLink  onClick={()=>setShowMenu(false)} to='/about'><p className='px-4 py-2 rounded inline-block'>ABOUT</p></NavLink>
-            <NavLink  onClick={()=>setShowMenu(false)} to='/contact'><p className='px-4 py-2 rounded inline-block'>CONTACT</p></NavLink>
-           </ul>
-        </div>
-           </div>
+        {/* -------- Mobile Menu --------- */}
+        <AnimatePresence>
+          {showMenu && (
+            <motion.div
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+              className='fixed inset-0 z-50 bg-white md:hidden flex flex-col'
+            >
+              <div className='flex items-center justify-between px-6 py-6 border-b border-gray-100'>
+                <img className='w-36' src={assets.logo} alt="Logo" />
+                <button onClick={() => setShowMenu(false)} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                  <img className='w-6' src={assets.cross_icon} alt="Close" />
+                </button>
+              </div>
+              <ul className='flex flex-col items-center gap-4 mt-10 px-5 text-xl font-medium'>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.name}
+                    onClick={() => setShowMenu(false)}
+                    to={item.path}
+                    className={({ isActive }) => `px-6 py-3 rounded-2xl w-full text-center transition-all ${isActive ? 'bg-primary/10 text-primary' : 'hover:bg-gray-50'}`}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

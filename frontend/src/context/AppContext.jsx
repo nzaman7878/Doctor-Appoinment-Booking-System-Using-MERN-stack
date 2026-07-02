@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
   )
   const [userData, setUserData] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
   // Get doctors list
   const getDoctorsData = useCallback(async () => {
@@ -90,6 +91,10 @@ const AppContextProvider = ({ children }) => {
     }
   }, [backendUrl, token])
 
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'))
+  }, [])
+
   // Memoized context value
   const value = useMemo(() => ({
     doctors,
@@ -103,7 +108,9 @@ const AppContextProvider = ({ children }) => {
     loadUserProfileData,
     updateUserProfile,
     isLoading,
-  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading])
+    theme,
+    toggleTheme,
+  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading, theme, toggleTheme])
 
   // Handle token changes
   useEffect(() => {
@@ -113,6 +120,18 @@ const AppContextProvider = ({ children }) => {
       localStorage.removeItem('token')
     }
   }, [token])
+
+  // Handle theme changes
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+
 
   // Fetch doctors on mount
   useEffect(() => {
