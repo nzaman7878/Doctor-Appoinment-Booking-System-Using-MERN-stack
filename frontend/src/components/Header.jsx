@@ -70,15 +70,24 @@ const Header = () => {
       {/* ------------ Right Side ---------- */}
       <motion.div 
         variants={itemVariants}
-        className='md:w-1/2 relative z-10'
+        className='md:w-1/2 relative z-10 flex items-end justify-center pt-10 md:pt-0'
       >
-        <motion.img
-          animate={{ y: [-10, 10, -10] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className='w-full md:absolute bottom-0 h-auto rounded-lg drop-shadow-2xl'
-          src={assets.header_img}
-          alt="Header Image"
-        />
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          className='w-full max-w-sm relative'
+          style={{
+            maskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 100%)'
+          }}
+        >
+          <img
+            className='w-full h-auto drop-shadow-2xl mix-blend-multiply opacity-95'
+            src={assets.indian_female_doctor}
+            alt="Trusted Doctor"
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
