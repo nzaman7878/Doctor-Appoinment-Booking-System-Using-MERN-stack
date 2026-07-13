@@ -116,13 +116,13 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700"
+        className="w-full max-w-2xl bg-white dark:bg-[#212424] rounded-2xl shadow-2xl overflow-hidden border border-[var(--border-color)]"
       >
-        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800">
-          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Edit Appointment</h2>
+        <div className="px-6 py-4 border-b border-[var(--border-color)] flex justify-between items-center bg-gray-50 dark:bg-[#2A2D2D]">
+          <h2 className="text-xl font-bold text-[var(--text-main)]">Edit Appointment</h2>
           <button 
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors"
+            className="p-2 text-[var(--text-muted)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 rounded-full transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -132,25 +132,25 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
 
         <div className="p-6">
           {/* Patient Details (Read Only) */}
-          <div className="mb-6 flex items-center gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-            <img className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-600 shadow-sm" src={appointment.userData.image} alt={appointment.userData.name} />
+          <div className="mb-6 flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-[#2A2D2D] border border-[var(--border-color)]">
+            <img className="w-12 h-12 rounded-full object-cover border-2 border-[var(--border-color)] shadow-sm" src={appointment.userData.image} alt={appointment.userData.name} />
             <div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Patient</p>
-              <p className="font-semibold text-slate-800 dark:text-slate-100">{appointment.userData.name}</p>
+              <p className="text-sm text-[var(--text-muted)]">Patient</p>
+              <p className="font-semibold text-[var(--text-main)]">{appointment.userData.name}</p>
             </div>
             <div className="ml-auto text-right">
-               <p className="text-sm text-slate-500 dark:text-slate-400">Current Slot</p>
-               <p className="font-semibold text-primary">{appointment.slotDate.replace(/_/g, '/')} | {appointment.slotTime}</p>
+               <p className="text-sm text-[var(--text-muted)]">Current Slot</p>
+               <p className="font-semibold text-[var(--color-primary)]">{appointment.slotDate.replace(/_/g, '/')} | {appointment.slotTime}</p>
             </div>
           </div>
 
           {/* Doctor Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Select Doctor</label>
+            <label className="block text-sm font-medium text-[var(--text-main)] mb-2">Select Doctor</label>
             <select
               value={selectedDocId}
               onChange={(e) => setSelectedDocId(e.target.value)}
-              className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all cursor-pointer"
+              className="w-full p-3 rounded-xl border border-[var(--border-color)] bg-white dark:bg-[#212424] text-[var(--text-main)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] transition-all cursor-pointer"
             >
               {doctors.filter(d => d.available || d._id === appointment.docId).map((doc) => (
                 <option key={doc._id} value={doc._id}>
@@ -163,15 +163,15 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
           {/* Booking Slots */}
           {docInfo && (
             <div className="mt-6">
-              <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Available Dates</p>
+              <p className="text-sm font-medium text-[var(--text-main)] mb-3">Available Dates</p>
               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 {docSlots.length > 0 && docSlots.map((item, index) => (
                   <div
                     onClick={() => setSlotIndex(index)}
                     className={`flex flex-col items-center justify-center py-3 px-4 min-w-[70px] rounded-xl cursor-pointer transition-all border ${
                       slotIndex === index
-                        ? "bg-primary text-white border-primary shadow-md"
-                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:border-primary/50"
+                        ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-md"
+                        : "border-[var(--border-color)] bg-white dark:bg-[#212424] text-[var(--text-muted)] hover:border-[var(--color-primary-light)]"
                     }`}
                     key={index}
                   >
@@ -181,7 +181,7 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
                 ))}
               </div>
 
-              <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-6 mb-3">Available Times</p>
+              <p className="text-sm font-medium text-[var(--text-main)] mt-6 mb-3">Available Times</p>
               <div className="flex gap-3 flex-wrap max-h-40 overflow-y-auto">
                 <AnimatePresence mode="popLayout">
                   {docSlots.length > 0 && docSlots[slotIndex] && docSlots[slotIndex].length > 0 ? (
@@ -190,8 +190,8 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
                         onClick={() => setSlotTime(item.time)}
                         className={`text-sm font-medium px-4 py-2 rounded-full cursor-pointer transition-all border ${
                           item.time === slotTime
-                            ? "bg-primary text-white border-primary shadow-md"
-                            : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:border-primary/50 hover:text-primary dark:hover:text-primary-light"
+                            ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-md"
+                            : "border-[var(--border-color)] bg-white dark:bg-[#212424] text-[var(--text-muted)] hover:border-[var(--color-primary-light)] hover:text-[var(--color-primary)]"
                         }`}
                         key={index}
                       >
@@ -199,7 +199,7 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
                       </button>
                     ))
                   ) : (
-                    <p className="text-sm text-slate-500 dark:text-slate-400 italic">No available slots for this date.</p>
+                    <p className="text-sm text-[var(--text-muted)] italic">No available slots for this date.</p>
                   )}
                 </AnimatePresence>
               </div>
@@ -207,20 +207,20 @@ const EditAppointmentModal = ({ appointment, onClose }) => {
           )}
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex justify-end gap-3">
+        <div className="px-6 py-4 border-t border-[var(--border-color)] bg-gray-50 dark:bg-[#2A2D2D] flex justify-end gap-3">
           <button 
             onClick={onClose}
-            className="px-6 py-2 rounded-xl text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            className="px-6 py-2 rounded-xl text-[var(--text-main)] font-medium hover:bg-white dark:hover:bg-[#212424] transition-colors"
           >
             Cancel
           </button>
           <button 
             onClick={handleSave}
             disabled={!slotTime || isSaving}
-            className={`px-6 py-2 rounded-xl font-medium transition-all ${
+            className={`px-6 py-2 rounded-xl font-medium transition-all border border-[var(--color-primary)] ${
               !slotTime || isSaving 
-                ? "bg-slate-300 dark:bg-slate-700 text-slate-500 cursor-not-allowed" 
-                : "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg"
+                ? "bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed border-transparent" 
+                : "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] shadow-sm"
             }`}
           >
             {isSaving ? "Saving..." : "Save Changes"}

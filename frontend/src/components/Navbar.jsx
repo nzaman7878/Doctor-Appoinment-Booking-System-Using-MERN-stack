@@ -24,7 +24,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className='sticky top-4 z-50 glass-panel flex items-center justify-between text-sm py-4 px-6 mb-8 rounded-full shadow-lg transition-all'>
+    <div className='sticky top-4 z-50 bg-card-bg border border-border-color flex items-center justify-between text-sm py-4 px-6 mb-8 rounded-2xl shadow-sm transition-all'>
       <img
         onClick={() => navigate('/')}
         className='w-36 sm:w-44 cursor-pointer hover:opacity-80 transition-opacity dark:invert'
@@ -36,12 +36,12 @@ const Navbar = () => {
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
           return (
-            <NavLink key={item.name} to={item.path} className="relative px-4 py-2 rounded-full transition-colors hover:text-primary">
+            <NavLink key={item.name} to={item.path} className="relative px-4 py-2 rounded-xl transition-colors hover:text-primary">
               <span className="relative z-10">{item.name}</span>
               {isActive && (
                 <motion.div
                   layoutId="navbar-indicator"
-                  className="absolute inset-0 bg-primary/10 rounded-full z-0"
+                  className="absolute inset-0 bg-primary/10 rounded-xl z-0"
                   initial={false}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
@@ -55,10 +55,10 @@ const Navbar = () => {
         {token && userData ? (
           <div className='flex items-center gap-2 cursor-pointer group relative'>
             <img className='w-9 h-9 rounded-full object-cover border-2 border-primary/20' src={userData.image} alt="User" />
-            <img className='w-2.5 transition-transform group-hover:rotate-180 duration-300' src={assets.dropdown_icon} alt="" />
+            <img className='w-2.5 transition-transform group-hover:rotate-180 duration-200' src={assets.dropdown_icon} alt="" />
 
             <div className='absolute top-full right-0 pt-4 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
-              <div className='min-w-48 glass-panel rounded-xl flex flex-col gap-2 p-3 shadow-xl border border-white/50 dark:border-slate-700/50'>
+              <div className='min-w-48 bg-card-bg rounded-xl flex flex-col gap-2 p-3 shadow-md border border-border-color'>
                 <p onClick={() => navigate('my-profile')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Profile</p>
                 <p onClick={() => navigate('my-appointments')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Appointments</p>
                 <div className="h-px bg-gray-200 dark:bg-slate-700 my-1"></div>
@@ -67,7 +67,7 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <button onClick={() => navigate('/login')} className='premium-gradient-bg text-white px-8 py-3 rounded-full font-light hidden md:block shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-0.5 transition-all duration-300'>
+          <button onClick={() => navigate('/login')} className='bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-medium hidden md:block hover:bg-[var(--color-primary-light)] transition-all duration-200'>
             Create Account
           </button>
         )}

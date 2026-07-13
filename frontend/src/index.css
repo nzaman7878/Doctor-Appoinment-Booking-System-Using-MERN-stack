@@ -6,31 +6,27 @@
 
 @layer base {
   :root {
-    --color-primary: #4f46e5; /* Indigo 600 */
-    --color-primary-light: #818cf8; /* Indigo 400 */
-    --color-primary-dark: #3730a3; /* Indigo 800 */
-    --color-secondary: #0ea5e9; /* Sky 500 */
-    --color-accent: #8b5cf6; /* Violet 500 */
+    --color-primary: #356C6F; /* Forest Teal */
+    --color-primary-light: #4A8386; /* Lighter Forest Teal */
+    --color-primary-dark: #234D50; /* Darker Forest Teal */
+    --color-secondary: #C66B4E; /* Terracotta */
+    --color-accent: #6D8C72; /* Sage Green */
     
-    --bg-main: #f8fafc; /* Slate 50 */
-    --text-main: #0f172a; /* Slate 900 */
-    --text-muted: #334155; /* Slate 700 for better visibility */
-    --border-color: #e2e8f0;
-    --card-bg: #ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.85); /* More opaque */
-    --glass-border: rgba(255, 255, 255, 0.6);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --bg-main: #F9F8F6; /* Warm Neutral Background */
+    --text-main: #2C3333; /* Soft Charcoal */
+    --text-muted: #5E6A6A; /* Lighter Charcoal */
+    --border-color: #E7E2DA; /* Warm Gray */
+    --card-bg: #FFFFFF;
+    
+    --transition-standard: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --bg-main: #020617; /* Slate 950 */
-    --text-main: #f8fafc; /* Slate 50 */
-    --text-muted: #94a3b8; /* Slate 400 */
-    --border-color: #1e293b;
-    --card-bg: #0f172a;
-    --glass-bg: rgba(15, 23, 42, 0.8);
-    --glass-border: rgba(30, 41, 59, 0.6);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --bg-main: #181A1A; /* Dark Charcoal */
+    --text-main: #F9F8F6; /* Warm Neutral */
+    --text-muted: #A3ABAB;
+    --border-color: #353B3B;
+    --card-bg: #212424;
   }
 
   body {
@@ -52,18 +48,30 @@
 }
 
 @layer utilities {
+  .premium-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    transition: var(--transition-standard);
+  }
+  
+  .premium-card:hover {
+    border-color: var(--color-primary-light);
+  }
+  
+  /* Legacy classes redefined to match the new aesthetic without breaking existing layout immediately */
   .glass-panel {
-    background-color: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary;
+    color: var(--color-primary);
   }
+  
   .premium-gradient-bg {
-    @apply bg-gradient-to-br from-primary via-accent to-secondary;
+    background-color: var(--color-primary);
   }
 }
 

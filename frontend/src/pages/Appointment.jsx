@@ -141,11 +141,10 @@ const Appointment = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="w-full sm:max-w-72 relative rounded-2xl overflow-hidden shadow-lg"
+          className="w-full sm:max-w-72 relative rounded-2xl overflow-hidden border border-[var(--border-color)]"
         >
-          <div className="absolute inset-0 premium-gradient-bg opacity-20"></div>
           <img
-            className="w-full bg-sky-50 dark:bg-slate-800 object-cover relative z-10"
+            className="w-full bg-gray-50 dark:bg-[#2A2D2D] object-cover relative z-10"
             src={docInfo.image}
             alt={docInfo.name}  
           />
@@ -155,33 +154,33 @@ const Appointment = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
-          className="flex-1 glass-panel dark:glass-panel-dark rounded-2xl p-8 py-7 mx-2 sm:mx-0 -mt-20 sm:mt-0 relative z-20 shadow-xl"
+          className="flex-1 premium-card p-8 py-7 mx-2 sm:mx-0 -mt-20 sm:mt-0 relative z-20"
         >
-          <p className="flex items-center gap-2 text-3xl font-bold text-slate-800 dark:text-slate-100">
+          <p className="flex items-center gap-2 text-3xl font-medium text-[var(--text-main)]">
             {docInfo.name}
             <img className="w-6" src={assets.verified_icon} alt="verified" />
           </p>
 
-          <div className="flex items-center gap-3 text-sm mt-2 font-medium text-slate-600 dark:text-slate-400">
+          <div className="flex items-center gap-3 text-sm mt-2 font-medium text-[var(--text-muted)]">
             <p>
               {docInfo.degree} - {docInfo.speciality}
             </p>
-            <span className="py-1 px-3 border border-slate-200 dark:border-slate-700 rounded-full bg-slate-50 dark:bg-slate-800/50">
+            <span className="py-1 px-3 border border-[var(--border-color)] rounded-full bg-gray-50 dark:bg-[#2A2D2D]">
               {docInfo.experience}
             </span>
           </div>
 
           <div className="mt-6">
-            <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-200">
+            <p className="flex items-center gap-2 text-sm font-medium text-[var(--text-main)]">
               About <img className="w-4 dark:invert" src={assets.info_icon} alt="info" />
             </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[700px] mt-2 leading-relaxed">
+            <p className="text-sm text-[var(--text-muted)] max-w-[700px] mt-2 leading-relaxed">
               {docInfo.about}
             </p>
           </div>
-          <p className="text-slate-500 dark:text-slate-400 font-medium mt-6">
+          <p className="text-[var(--text-muted)] font-medium mt-6">
             Appointment fee:{" "}
-            <span className="text-slate-800 dark:text-slate-200 font-bold text-lg">
+            <span className="text-[var(--text-main)] font-medium text-lg">
               {currencySymbol}{docInfo.fees}
             </span>
           </p>
@@ -193,9 +192,9 @@ const Appointment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="sm:ml-[19.5rem] sm:pl-4 mt-8 font-medium text-slate-700 dark:text-slate-300"
+        className="sm:ml-[19.5rem] sm:pl-4 mt-8 font-medium text-[var(--text-main)]"
       >
-        <p className="text-lg font-semibold text-slate-800 dark:text-slate-200">Booking slots</p>
+        <p className="text-lg font-medium text-[var(--text-main)]">Booking slots</p>
 
         <div className="flex gap-4 items-center w-full overflow-x-auto mt-5 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
           {docSlots.length > 0 && docSlots.map((item, index) => (
@@ -203,15 +202,15 @@ const Appointment = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSlotIndex(index)}
-              className={`flex flex-col items-center justify-center py-4 px-2 min-w-20 rounded-2xl cursor-pointer transition-all ${
+              className={`flex flex-col items-center justify-center py-4 px-2 min-w-20 rounded-2xl cursor-pointer transition-all border ${
                 slotIndex === index
-                  ? "premium-gradient-bg text-white shadow-lg"
-                  : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:border-primary/50"
+                  ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                  : "border-[var(--border-color)] bg-white dark:bg-[#212424] text-[var(--text-muted)] hover:border-[var(--color-primary-light)]"
               }`}
               key={index}
             >
               <p className="text-sm">{item[0] && daysOfWeek[item[0].dateTime.getDay()]}</p>
-              <p className="text-xl font-bold mt-1">{item[0] && item[0].dateTime.getDate()}</p>
+              <p className="text-xl font-medium mt-1">{item[0] && item[0].dateTime.getDate()}</p>
             </motion.div>
           ))}
         </div>
@@ -226,10 +225,10 @@ const Appointment = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSlotTime(item.time)}
-                className={`text-sm font-medium flex-shrink-0 px-6 py-2.5 rounded-full cursor-pointer transition-all ${
+                className={`text-sm font-medium flex-shrink-0 px-6 py-2.5 rounded-full cursor-pointer transition-all border ${
                   item.time === slotTime
-                    ? "premium-gradient-bg text-white shadow-md"
-                    : "text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary/50 hover:text-primary dark:hover:text-primary-light"
+                    ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                    : "text-[var(--text-muted)] border-[var(--border-color)] bg-white dark:bg-[#212424] hover:border-[var(--color-primary-light)] hover:text-[var(--color-primary)]"
                 }`}
                 key={index}
               >
@@ -243,7 +242,7 @@ const Appointment = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={bookAppointment}
-          className="premium-gradient-bg text-white text-base font-semibold px-14 py-4 rounded-full mt-10 mb-6 shadow-lg hover:shadow-xl transition-all"
+          className="bg-[var(--color-primary)] text-white text-base font-medium px-14 py-4 rounded-xl mt-10 mb-6 hover:bg-[var(--color-primary-light)] transition-all border border-[var(--color-primary)]"
         >
           Book an appointment
         </motion.button>

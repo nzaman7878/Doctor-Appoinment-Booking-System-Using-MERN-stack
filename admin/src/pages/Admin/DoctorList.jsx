@@ -22,7 +22,7 @@ const DoctorList = () => {
   return (
     <div className="m-5 mt-8 pb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">All Doctors</h1>
+        <h1 className="text-2xl font-bold text-[var(--text-main)]">All Doctors</h1>
         
         {/* Search Input */}
         <div className="relative w-full sm:w-72">
@@ -31,9 +31,9 @@ const DoctorList = () => {
             placeholder="Search by name or speciality..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 glass-panel dark:glass-panel-dark focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-700 dark:text-slate-200 transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-2 rounded-full border border-[var(--border-color)] bg-white dark:bg-[#212424] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary-light)] text-[var(--text-main)] transition-all shadow-sm"
           />
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 absolute left-3 top-2.5 text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 absolute left-3 top-2.5 text-[var(--text-muted)]">
             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
           </svg>
         </div>
@@ -52,10 +52,10 @@ const DoctorList = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.2, delay: index * 0.03 }}
-                className="glass-panel dark:glass-panel-dark border border-slate-200 dark:border-slate-700/50 rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl group"
+                className="premium-card border-none rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl group"
                 key={item._id}
               >
-                <div className="relative overflow-hidden bg-indigo-50/50 dark:bg-slate-700/30">
+                <div className="relative overflow-hidden bg-[var(--color-primary)]/5">
                   <img
                     className="w-full h-56 object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     src={item.image}
@@ -65,10 +65,10 @@ const DoctorList = () => {
                 </div>
                 
                 <div className="p-5">
-                  <p className="text-slate-800 dark:text-slate-100 text-lg font-bold truncate">
+                  <p className="text-[var(--text-main)] text-lg font-bold truncate">
                     {item.name}
                   </p>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{item.speciality}</p>
+                  <p className="text-[var(--text-muted)] text-sm mt-1">{item.speciality}</p>
                   
                   <div className="mt-4 flex items-center justify-between gap-2 text-sm">
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -79,8 +79,8 @@ const DoctorList = () => {
                         checked={item.available}
                         onChange={(e) => changeAvailability(item._id, e.target.checked)}
                       />
-                      <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                      <span className={`ml-3 text-sm font-medium ${item.available ? 'text-green-600 dark:text-green-400' : 'text-slate-500 dark:text-slate-500'}`}>
+                      <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#313434] peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--color-primary)]"></div>
+                      <span className={`ml-3 text-sm font-medium ${item.available ? 'text-green-600 dark:text-green-400' : 'text-[var(--text-muted)]'}`}>
                         {item.available ? 'Available' : 'Unavailable'}
                       </span>
                     </label>
@@ -104,7 +104,7 @@ const DoctorList = () => {
               </motion.div>
             ))
           ) : (
-            <p className="text-slate-500 dark:text-slate-400 col-span-full text-center py-10">No doctors found matching "{searchTerm}"</p>
+            <p className="text-[var(--text-muted)] col-span-full text-center py-10">No doctors found matching "{searchTerm}"</p>
           )}
         </AnimatePresence>
       </motion.div>

@@ -31,35 +31,35 @@ const Footer = () => {
         {/* ------------Left Section ---------- */}
         <motion.div variants={itemVariants}>
           <img className='mb-6 w-44 cursor-pointer dark:invert' src={assets.logo} alt="DocConnect Logo" />
-          <p className='w-full md:w-2/3 text-slate-500 dark:text-slate-400 leading-relaxed'>
+          <p className='w-full md:w-2/3 text-[var(--text-muted)] leading-relaxed'>
             “Doctor Appointment System – Your reliable platform for booking medical appointments with trusted doctors anytime, anywhere. Connecting patients and healthcare providers to make healthcare simpler, faster, and more accessible.”
           </p>
         </motion.div>
 
         {/* ------Center Section --------- */}
         <motion.div variants={itemVariants}>
-          <p className='text-lg font-semibold mb-5 text-slate-800 dark:text-slate-200'>COMPANY</p>
-          <ul className='flex flex-col gap-3 text-slate-500 dark:text-slate-400'>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Home</li>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">About us</li>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Contact us</li>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">Privacy policy</li>
+          <p className='text-lg font-medium mb-5 text-[var(--text-main)]'>COMPANY</p>
+          <ul className='flex flex-col gap-3 text-[var(--text-muted)]'>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Home</li>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">About us</li>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Contact us</li>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Privacy policy</li>
           </ul>
         </motion.div>
 
         {/* ----------Right Section ---------- */}
         <motion.div variants={itemVariants}>
-          <p className='text-lg font-semibold mb-5 text-slate-800 dark:text-slate-200'>GET IN TOUCH</p>
-          <ul className='flex flex-col gap-3 text-slate-500 dark:text-slate-400'>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">+91-700-235-17345</li>
-            <li className="hover:text-primary transition-colors cursor-pointer w-fit">docconnect@gmail.com</li>
+          <p className='text-lg font-medium mb-5 text-[var(--text-main)]'>GET IN TOUCH</p>
+          <ul className='flex flex-col gap-3 text-[var(--text-muted)]'>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">+91-700-235-17345</li>
+            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">docconnect@gmail.com</li>
           </ul>
         </motion.div>
       </div>
 
       {/* ------------- Copyright Text ------------- */}
-      <motion.div variants={itemVariants} className="pt-6 border-t border-slate-200 dark:border-slate-800">
-        <p className='py-4 text-sm text-center text-slate-500 dark:text-slate-400'>
+      <motion.div variants={itemVariants} className="pt-6 border-t border-[var(--border-color)]">
+        <p className='py-4 text-sm text-center text-[var(--text-muted)]'>
           Copyright 2025 © DocConnect -- All Rights Reserved.
         </p>
       </motion.div>

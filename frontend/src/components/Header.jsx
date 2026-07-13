@@ -23,25 +23,20 @@ const Header = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className='flex flex-col md:flex-row flex-wrap premium-gradient-bg rounded-3xl px-6 md:px-10 lg:px-20 relative overflow-hidden shadow-2xl'
+      className='flex flex-col md:flex-row flex-wrap bg-[var(--color-primary)] rounded-[20px] px-6 md:px-10 lg:px-20 relative overflow-hidden shadow-sm'
     >
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[100px]"></div>
-        <div className="absolute bottom-[10%] right-[10%] w-[30%] h-[40%] rounded-full bg-white/5 blur-[80px]"></div>
-      </div>
 
       {/* ---------- Left Side ------------- */}
       <div className='md:w-1/2 flex flex-col items-start justify-center gap-6 py-10 m-auto md:py-[10vw] md:mb-[-30px] z-10'>
         <motion.p
           variants={itemVariants}
-          className='text-3xl md:text-4xl lg:text-5xl text-white font-bold leading-tight md:leading-tight lg:leading-tight drop-shadow-sm'
+          className='text-3xl md:text-4xl lg:text-5xl text-white font-semibold leading-tight md:leading-tight lg:leading-tight'
         >
           Book Appointment <br /> With Trusted Doctors
         </motion.p>
         
         <motion.div variants={itemVariants} className='flex flex-col md:flex-row items-center gap-4 text-white/90 text-sm md:text-base font-light'>
-          <img className='w-28 drop-shadow-md' src={assets.group_profiles} alt="Profiles" />
+          <img className='w-28' src={assets.group_profiles} alt="Profiles" />
           <p>
             Browse our trusted doctors and book your appointment <br className='hidden sm:block' />
             instantly—fast, simple, and secure.
@@ -50,17 +45,14 @@ const Header = () => {
         
         <motion.a
           variants={itemVariants}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           href="#speciality"
-          className='flex items-center gap-2 bg-white px-8 py-3.5 rounded-full text-primary font-medium text-sm m-auto md:m-0 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.23)] transition-shadow duration-300'
+          className='flex items-center gap-2 bg-white px-8 py-3.5 rounded-xl text-[var(--color-primary)] font-medium text-sm m-auto md:m-0 hover:bg-gray-50 transition-all duration-200 border border-gray-100'
         >
           Book Appointment
-          <motion.img 
-            initial={{ x: 0 }}
-            animate={{ x: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            className='w-3' 
+          <img 
+            className='w-3 ml-2' 
             src={assets.arrow_icon} 
             alt="Arrow" 
           />

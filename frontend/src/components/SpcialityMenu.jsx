@@ -37,14 +37,14 @@ const SpcialityMenu = () => {
         {specialityData.map((item, index) => (
           <motion.div key={index} variants={itemVariants}>
             <Link
-              onClick={() => scrollTo(0, 0)}
+              onClick={() => window.scrollTo(0, 0)}
               className='flex flex-col items-center text-xs cursor-pointer flex-shrink-0 group'
               to={`/doctors/${item.speciality}`}
             >
-              <div className='w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center mb-3 shadow-sm group-hover:shadow-md group-hover:border-primary/30 transition-all duration-300 group-hover:-translate-y-2'>
-                <img className='w-12 sm:w-14 object-contain transition-transform duration-300 group-hover:scale-110' src={item.image} alt={item.speciality} />
+              <div className='w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-[#212424] border border-[var(--border-color)] flex items-center justify-center mb-3 transition-all duration-200 group-hover:border-[var(--color-primary-light)] group-hover:-translate-y-1'>
+                <img className='w-12 sm:w-14 object-contain transition-transform duration-300 group-hover:scale-105' src={item.image} alt={item.speciality} />
               </div>
-              <p className='font-medium text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors'>{item.speciality}</p>
+              <p className='font-medium text-[var(--text-main)] group-hover:text-[var(--color-primary)] transition-colors'>{item.speciality}</p>
             </Link>
           </motion.div>
         ))}

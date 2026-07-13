@@ -299,7 +299,7 @@ export const doctors = [
         }
     },
 
-     {
+    {
         _id: 'doc15',
         name: 'Dr. Amelia Hill',
         image: doc15,

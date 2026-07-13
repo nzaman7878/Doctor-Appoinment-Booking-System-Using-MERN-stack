@@ -29,7 +29,7 @@ const Navbar = () => {
 
   return (
     <div className='sticky top-0 z-50 px-4 sm:px-10 py-3 mb-2'>
-      <div className='flex justify-between items-center px-6 py-3 rounded-full glass-panel dark:glass-panel-dark transition-all duration-300'>
+      <div className='flex justify-between items-center px-6 py-3 rounded-full bg-white dark:bg-[#212424] border border-[var(--border-color)] shadow-sm transition-all duration-300'>
         <div className='flex items-center gap-4 text-xs'>
           <img 
             className='w-36 sm:w-40 cursor-pointer dark:invert transition-all duration-300' 
@@ -37,7 +37,7 @@ const Navbar = () => {
             alt="Logo"
             onClick={() => navigate('/')}  
           />
-          <p className='border px-3 py-1 rounded-full border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-medium'>
+          <p className='border px-3 py-1 rounded-full border-[var(--border-color)] text-[var(--text-muted)] font-medium'>
             {aToken ? 'Admin' : dToken ? 'Doctor' : 'Guest'}
           </p>
         </div>
@@ -46,7 +46,7 @@ const Navbar = () => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className='w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm'
+            className='w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 dark:bg-[#2A2D2D] text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all shadow-sm border border-[var(--border-color)]'
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
@@ -62,7 +62,7 @@ const Navbar = () => {
 
           <button 
             onClick={logout} 
-            className='premium-gradient-bg text-white text-sm px-8 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 font-medium'
+            className='bg-[var(--color-primary)] text-white text-sm px-8 py-2 rounded-full hover:bg-[var(--color-primary-light)] transition-all duration-300 font-medium border border-[var(--color-primary)]'
             disabled={!aToken && !dToken}  
           >
             Logout

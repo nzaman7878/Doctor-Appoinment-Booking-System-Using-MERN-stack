@@ -37,9 +37,9 @@ const DoctorProfile = () => {
         transition={{ duration: 0.4 }}
         className="m-5 mt-8 pb-10 max-w-5xl"
       >
-        <p className="mb-6 text-2xl font-bold text-slate-800 dark:text-slate-100">Profile</p>
+        <p className="mb-6 text-2xl font-bold text-[var(--text-main)]">Profile</p>
         <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-1/3 xl:w-1/4 rounded-2xl overflow-hidden glass-panel dark:glass-panel-dark border-none shadow-sm relative group">
+          <div className="w-full md:w-1/3 xl:w-1/4 rounded-2xl overflow-hidden premium-card border-none shadow-sm relative group">
             <div className="absolute inset-0 bg-primary/20 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <img 
               src={profileData.image} 
@@ -48,26 +48,26 @@ const DoctorProfile = () => {
             />
           </div>
           
-          <div className="flex-1 glass-panel dark:glass-panel-dark border-none rounded-2xl p-8 shadow-sm relative overflow-hidden">
+          <div className="flex-1 premium-card border-none rounded-2xl p-8 shadow-sm relative overflow-hidden">
             {/* Background Accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary)]/5 rounded-full blur-3xl -mr-10 -mt-10"></div>
             
             <div className="relative z-10">
               {/* Doctor Info - Non-editable */}
-              <p className="flex items-center gap-2 text-3xl font-bold text-slate-800 dark:text-slate-100">
+              <p className="flex items-center gap-2 text-3xl font-bold text-[var(--text-main)]">
                 {profileData.name}
               </p>
-              <div className="flex flex-wrap items-center gap-2 mt-2 text-slate-600 dark:text-slate-300">
+              <div className="flex flex-wrap items-center gap-2 mt-2 text-[var(--text-main)]">
                 <p className="font-medium">{profileData.degree} - {profileData.speciality}</p>
-                <span className="py-1 px-3 border border-slate-200 dark:border-slate-700 text-xs rounded-full bg-white/50 dark:bg-slate-800/50 font-semibold shadow-sm">
+                <span className="py-1 px-3 border border-[var(--border-color)] text-xs rounded-full bg-white dark:bg-[#2A2D2D] font-semibold shadow-sm">
                   {profileData.experience}
                 </span>
               </div>
 
               {/* About */}
               <div className="mt-6">
-                <p className="flex items-center gap-1 text-sm font-bold text-slate-800 dark:text-slate-200 mb-2">About</p>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-[700px]">{profileData.about}</p>
+                <p className="flex items-center gap-1 text-sm font-bold text-[var(--text-main)] mb-2">About</p>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-[700px]">{profileData.about}</p>
               </div>
 
               {/* Editable Fields */}
@@ -78,12 +78,12 @@ const DoctorProfile = () => {
                   className="mt-6 space-y-5"
                 >
                   <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">Appointment Fee</label>
+                    <label className="text-sm font-semibold text-[var(--text-main)] block mb-1.5">Appointment Fee</label>
                     <div className="relative max-w-[200px]">
-                      <span className="absolute left-3 top-2.5 text-slate-500 font-medium">{currency}</span>
+                      <span className="absolute left-3 top-2.5 text-[var(--text-muted)] font-medium">{currency}</span>
                       <input 
                         type="number" 
-                        className="w-full pl-8 pr-4 py-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 text-slate-800 dark:text-slate-100"
+                        className="w-full pl-8 pr-4 py-2.5 bg-white dark:bg-[#2A2D2D] border border-[var(--border-color)] rounded-xl outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary-light)] text-[var(--text-main)]"
                         value={profileData.fees || ''}
                         onChange={(e) => setProfileData(prev => ({
                           ...prev, 
@@ -94,11 +94,11 @@ const DoctorProfile = () => {
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">Address</label>
+                    <label className="text-sm font-semibold text-[var(--text-main)] block mb-1.5">Address</label>
                     <div className="space-y-2 max-w-md">
                       <input 
                         type="text" 
-                        className="w-full px-4 py-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 text-slate-800 dark:text-slate-100"
+                        className="w-full px-4 py-2.5 bg-white dark:bg-[#2A2D2D] border border-[var(--border-color)] rounded-xl outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary-light)] text-[var(--text-main)]"
                         placeholder="Line 1"
                         value={profileData.address?.line1 || ''}
                         onChange={(e) => setProfileData(prev => ({
@@ -108,7 +108,7 @@ const DoctorProfile = () => {
                       />
                       <input 
                         type="text" 
-                        className="w-full px-4 py-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 text-slate-800 dark:text-slate-100"
+                        className="w-full px-4 py-2.5 bg-white dark:bg-[#2A2D2D] border border-[var(--border-color)] rounded-xl outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary-light)] text-[var(--text-main)]"
                         placeholder="Line 2"
                         value={profileData.address?.line2 || ''}
                         onChange={(e) => setProfileData(prev => ({
@@ -119,7 +119,7 @@ const DoctorProfile = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-4 bg-slate-50/50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 max-w-md">
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-[#2A2D2D] rounded-xl border border-[var(--border-color)] max-w-md">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input 
                         type="checkbox" 
@@ -130,8 +130,8 @@ const DoctorProfile = () => {
                           available: e.target.checked
                         }))}
                       />
-                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                      <span className="ml-3 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#313434] peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--color-primary)]"></div>
+                      <span className="ml-3 text-sm font-semibold text-[var(--text-main)]">
                         Available for bookings
                       </span>
                     </label>
@@ -142,7 +142,7 @@ const DoctorProfile = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleSave}
-                      className="px-8 py-2.5 premium-gradient-bg text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
+                      className="px-8 py-2.5 bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] font-medium rounded-xl shadow-sm transition-all"
                     >
                       Save Changes
                     </motion.button>
@@ -150,7 +150,7 @@ const DoctorProfile = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setIsEdit(false)}
-                      className="px-8 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                      className="px-8 py-2.5 bg-slate-100 dark:bg-slate-800 text-[var(--text-main)] font-semibold rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
                     >
                       Cancel
                     </motion.button>
@@ -162,16 +162,16 @@ const DoctorProfile = () => {
                   animate={{ opacity: 1 }}
                   className="mt-6 space-y-4"
                 >
-                  <p className="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-2">
+                  <p className="text-[var(--text-muted)] font-medium flex items-center gap-2">
                     Appointment fee:{' '}
-                    <span className="text-slate-800 dark:text-slate-100 font-bold text-xl">
+                    <span className="text-[var(--text-main)] font-bold text-xl">
                       {currency}{profileData.fees}
                     </span>
                   </p>
 
                   <div className="flex gap-2 py-2">
-                    <p className="font-semibold text-slate-700 dark:text-slate-300">Address:</p>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className="font-semibold text-[var(--text-main)]">Address:</p>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                       {profileData.address?.line1}
                       {profileData.address?.line2 && <><br />{profileData.address.line2}</>}
                     </p>
@@ -179,7 +179,7 @@ const DoctorProfile = () => {
 
                   <div className="flex items-center gap-2 py-2">
                     <div className={`w-3 h-3 rounded-full ${profileData.available ? 'bg-green-500' : 'bg-slate-400'}`}></div>
-                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    <span className="text-sm font-semibold text-[var(--text-main)]">
                       {profileData.available ? 'Currently Available' : 'Currently Unavailable'}
                     </span>
                   </div>
@@ -188,7 +188,7 @@ const DoctorProfile = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setIsEdit(true)}
-                    className="px-8 py-2.5 mt-4 border-2 border-primary text-primary dark:border-indigo-400 dark:text-indigo-400 font-semibold rounded-full hover:bg-primary hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-all shadow-sm"
+                    className="px-8 py-2.5 mt-4 border border-[var(--color-primary)] text-[var(--color-primary)] font-medium rounded-xl hover:bg-[var(--color-primary)] hover:text-white transition-all shadow-sm"
                   >
                     Edit Profile
                   </motion.button>

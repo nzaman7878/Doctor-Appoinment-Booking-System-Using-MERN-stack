@@ -82,13 +82,13 @@ const AddDoctor = () => {
       onSubmit={onSubmitHandler} 
       className="m-5 mt-8 w-full pb-10"
     >
-      <p className="mb-6 text-2xl font-bold text-slate-800 dark:text-slate-100">Add Doctor</p>
-      <div className="glass-panel dark:glass-panel-dark px-8 py-8 border-none rounded-2xl w-full max-w-4xl max-h-[80vh] overflow-y-auto shadow-sm">
+      <p className="mb-6 text-2xl font-bold text-[var(--text-main)]">Add Doctor</p>
+      <div className="premium-card px-8 py-8 w-full max-w-4xl max-h-[80vh] overflow-y-auto shadow-sm">
         
         {/* Upload Image Section */}
         <div className="flex items-center gap-6 mb-10">
           <label htmlFor="doc-img" className="group relative cursor-pointer">
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 group-hover:border-primary transition-colors flex items-center justify-center shadow-sm">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[var(--border-color)] bg-gray-50 dark:bg-[#2A2D2D] group-hover:border-[var(--color-primary)] transition-colors flex items-center justify-center shadow-sm">
               <img
                 className={`object-cover ${docImg ? 'w-full h-full' : 'w-10 opacity-60 dark:invert'}`}
                 src={docImg ? URL.createObjectURL(docImg) : assets.upload_area}
@@ -107,13 +107,13 @@ const AddDoctor = () => {
             id="doc-img"
             hidden
           />
-          <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+          <p className="text-[var(--text-main)] font-medium leading-relaxed">
             Upload doctor <br /> picture
           </p>
         </div>
 
         {/* Input Grid */}
-        <div className="flex flex-col lg:flex-row items-start gap-10 text-slate-700 dark:text-slate-300">
+        <div className="flex flex-col lg:flex-row items-start gap-10 text-[var(--text-main)]">
           {/* Column 1 */}
           <div className="w-full lg:flex-1 flex flex-col gap-5">
             <div className="flex-1 flex flex-col gap-1.5">
@@ -121,7 +121,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setName(e.target.value)}
                 value={name}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="text"
                 placeholder="Name"
                 required
@@ -133,7 +133,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="email"
                 placeholder="Email address"
                 required
@@ -145,7 +145,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="password"
                 placeholder="Secure password"
                 required
@@ -157,7 +157,7 @@ const AddDoctor = () => {
               <select
                 onChange={(e) => setExperience(e.target.value)}
                 value={experience}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100 cursor-pointer"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)] cursor-pointer"
               >
                 {[...Array(10)].map((_, i) => (
                   <option key={i} value={`${i + 1} Year${i === 0 ? '' : 's'}`}>{i + 1} Year{i === 0 ? '' : 's'}</option>
@@ -170,7 +170,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setFees(e.target.value)}
                 value={fees}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="number"
                 placeholder="Fees amount"
                 required
@@ -185,7 +185,7 @@ const AddDoctor = () => {
               <select
                 onChange={(e) => setSpeciality(e.target.value)}
                 value={speciality}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100 cursor-pointer"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)] cursor-pointer"
               >
                 <option value="General physician">General physician</option>
                 <option value="Gynecologist">Gynecologist</option>
@@ -201,7 +201,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setDegree(e.target.value)}
                 value={degree}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="text"
                 placeholder="Degrees/Certifications"
                 required
@@ -213,7 +213,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setAddress1(e.target.value)}
                 value={address1}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100 mb-2"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)] mb-2"
                 type="text"
                 placeholder="Address Line 1"
                 required
@@ -221,14 +221,14 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setAddress2(e.target.value)}
                 value={address2}
-                className="border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100"
+                className="border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)]"
                 type="text"
                 placeholder="Address Line 2"
                 required
               />
             </div>
 
-            <div className="flex gap-3 items-center mt-2 bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700/50">
+            <div className="flex gap-3 items-center mt-2 bg-gray-50 dark:bg-[#2A2D2D] p-3 rounded-xl border border-[var(--border-color)]">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input 
                   type="checkbox" 
@@ -236,8 +236,8 @@ const AddDoctor = () => {
                   checked={available}
                   onChange={(e) => setAvailable(e.target.checked)}
                 />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                <span className="ml-3 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#313434] peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--color-primary)]"></div>
+                <span className="ml-3 text-sm font-semibold text-[var(--text-main)]">
                   Currently Available
                 </span>
               </label>
@@ -247,11 +247,11 @@ const AddDoctor = () => {
 
         {/* About Section */}
         <div className="mt-8">
-          <p className="text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">About Doctor</p>
+          <p className="text-sm font-semibold mb-2 text-[var(--text-main)]">About Doctor</p>
           <textarea
             onChange={(e) => setAbout(e.target.value)}
             value={about}
-            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 transition-all text-slate-800 dark:text-slate-100 resize-none"
+            className="w-full px-4 py-3 border border-[var(--border-color)] bg-white dark:bg-[#2A2D2D] rounded-xl outline-none focus:ring-2 focus:border-[var(--color-primary-light)] focus:ring-0 transition-all text-[var(--text-main)] resize-none"
             placeholder="Write a brief biography about the doctor..."
             rows={5}
             required
@@ -262,7 +262,7 @@ const AddDoctor = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           type="submit"
-          className="premium-gradient-bg text-white px-10 py-3 mt-8 font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
+          className="bg-[var(--color-primary)] text-white px-10 py-3 mt-8 font-medium rounded-xl hover:bg-[var(--color-primary-light)] transition-all"
         >
           Add Doctor
         </motion.button>

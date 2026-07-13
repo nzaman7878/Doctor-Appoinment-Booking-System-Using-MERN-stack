@@ -3,9 +3,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #4F46E5; /* Indigo-600 */
-  --color-secondary: #818CF8; /* Indigo-400 */
-  --color-accent: #6366F1; /* Indigo-500 */
+  --color-primary: #356C6F; /* Forest Teal */
+  --color-secondary: #C66B4E; /* Terracotta */
+  --color-accent: #6D8C72; /* Sage Green */
 }
 
 ::-webkit-scrollbar {
@@ -17,33 +17,36 @@
   scroll-behavior: smooth;
 }
 
-/* Glassmorphism Panel (Light Mode) */
+@layer base {
+  :root {
+    --bg-main: #F9F8F6; /* Warm Neutral Background */
+    --text-main: #2C3333; /* Soft Charcoal */
+    --border-color: #E7E2DA; /* Warm Gray */
+    --card-bg: #FFFFFF;
+    --transition-standard: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* Redefined legacy classes */
 @utility glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
 }
 
-/* Glassmorphism Panel (Dark Mode) */
 @utility glass-panel-dark {
-  background: rgba(30, 41, 59, 0.7); /* slate-800 */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  background-color: #212424;
+  border: 1px solid #353B3B;
+  border-radius: 1rem;
 }
 
-/* Premium Gradient Button/Background */
+/* Premium Gradient Button/Background redefined */
 .premium-gradient-bg {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  background-size: 200% 200%;
-  animation: gradient-shift 5s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  background: var(--color-primary);
 }

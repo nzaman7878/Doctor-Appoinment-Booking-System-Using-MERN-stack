@@ -24,45 +24,45 @@ const Dashboard = () => {
     <div className="m-5 mt-8 space-y-8 pb-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Stats Cards */}
-        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
-          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" className="flex items-center gap-4 premium-card p-6 cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center p-3">
             <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.doctor_icon} alt="Doctors" />
           </div>
           <div>
-            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.doctors}</p>
-            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Doctors</p>
+            <p className="text-3xl font-medium text-[var(--text-main)]">{dashData.doctors}</p>
+            <p className="text-[var(--text-muted)] font-medium mt-1">Doctors</p>
           </div>
         </motion.div>
 
-        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.1 }} className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
-          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.1 }} className="flex items-center gap-4 premium-card p-6 cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center p-3">
             <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.appointments_icon} alt="Appointments" />
           </div>
           <div>
-            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.appointments}</p>
-            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Appointments</p>
+            <p className="text-3xl font-medium text-[var(--text-main)]">{dashData.appointments}</p>
+            <p className="text-[var(--text-muted)] font-medium mt-1">Appointments</p>
           </div>
         </motion.div>
 
-        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.2 }} className="flex items-center gap-4 glass-panel dark:glass-panel-dark p-6 rounded-2xl cursor-pointer transition-colors duration-300">
-          <div className="w-16 h-16 rounded-xl bg-indigo-50 dark:bg-slate-700/50 flex items-center justify-center p-3">
+        <motion.div variants={cardVariants} initial="hidden" animate="visible" whileHover="hover" transition={{ delay: 0.2 }} className="flex items-center gap-4 premium-card p-6 cursor-pointer transition-colors duration-300">
+          <div className="w-16 h-16 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center p-3">
             <img className="w-full h-full object-contain dark:invert opacity-80" src={assets.patients_icon} alt="Patients" />
           </div>
           <div>
-            <p className="text-3xl font-bold text-slate-800 dark:text-slate-100">{dashData.patients}</p>
-            <p className="text-slate-500 dark:text-slate-300 font-medium mt-1">Patients</p>
+            <p className="text-3xl font-medium text-[var(--text-main)]">{dashData.patients}</p>
+            <p className="text-[var(--text-muted)] font-medium mt-1">Patients</p>
           </div>
         </motion.div>
       </div>
 
       {/* Latest Bookings */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-panel dark:glass-panel-dark rounded-2xl overflow-hidden">
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="premium-card">
+        <div className="flex items-center gap-3 px-6 py-5 border-b border-[var(--border-color)] bg-gray-50 dark:bg-[#2A2D2D] rounded-t-2xl">
           <img src={assets.list_icon} alt="" className="dark:invert opacity-70" />
-          <p className="font-semibold text-lg text-slate-800 dark:text-slate-100">Latest Bookings</p>
+          <p className="font-medium text-lg text-[var(--text-main)]">Latest Bookings</p>
         </div>
 
-        <div className="divide-y divide-slate-100 dark:divide-slate-700">
+        <div className="divide-y divide-[var(--border-color)]">
           {dashData.latestAppointments.map((item, index) => (
             <motion.div 
               initial={{ opacity: 0, x: -10 }}
@@ -73,8 +73,8 @@ const Dashboard = () => {
             >
               <img className="rounded-full w-12 h-12 object-cover border-2 border-white dark:border-slate-700 shadow-sm" src={item.docData.image} alt="" />
               <div className="flex-1 text-sm">
-                <p className="text-slate-800 dark:text-slate-100 font-semibold text-base">{item.docData.name}</p>
-                <p className="text-slate-500 dark:text-slate-300 mt-0.5">{slotDateFormat(item.slotDate)}</p>
+                <p className="text-[var(--text-main)] font-medium text-base">{item.docData.name}</p>
+                <p className="text-[var(--text-muted)] mt-0.5">{slotDateFormat(item.slotDate)}</p>
               </div>
               {item.cancelled ? (
                 <span className="px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-full text-xs font-semibold">Cancelled</span>
