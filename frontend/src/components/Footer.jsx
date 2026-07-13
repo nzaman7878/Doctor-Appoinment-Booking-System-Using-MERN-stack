@@ -1,8 +1,15 @@
 import React from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -40,10 +47,10 @@ const Footer = () => {
         <motion.div variants={itemVariants}>
           <p className='text-lg font-medium mb-5 text-[var(--text-main)]'>COMPANY</p>
           <ul className='flex flex-col gap-3 text-[var(--text-muted)]'>
-            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Home</li>
-            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">About us</li>
-            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Contact us</li>
-            <li className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Privacy policy</li>
+            <li onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Home</li>
+            <li onClick={() => handleNavigation('/about')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">About us</li>
+            <li onClick={() => handleNavigation('/contact')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Contact us</li>
+            <li onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Privacy policy</li>
           </ul>
         </motion.div>
 
