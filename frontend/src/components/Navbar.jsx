@@ -24,7 +24,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className='sticky top-4 z-50 bg-card-bg border border-border-color flex items-center justify-between text-sm py-4 px-6 mb-8 rounded-2xl shadow-sm transition-all'>
+    <div className='sticky top-4 z-50 bg-[var(--card-bg)] border border-[var(--border-color)] flex items-center justify-between text-sm py-4 px-6 mb-8 rounded-2xl shadow-sm transition-all'>
       <img
         onClick={() => navigate('/')}
         className='w-36 sm:w-44 cursor-pointer hover:opacity-80 transition-opacity dark:invert'
@@ -58,7 +58,7 @@ const Navbar = () => {
             <img className='w-2.5 transition-transform group-hover:rotate-180 duration-200' src={assets.dropdown_icon} alt="" />
 
             <div className='absolute top-full right-0 pt-4 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
-              <div className='min-w-48 bg-card-bg rounded-xl flex flex-col gap-2 p-3 shadow-md border border-border-color'>
+              <div className='min-w-48 bg-[var(--card-bg)] rounded-xl flex flex-col gap-2 p-3 shadow-md border border-[var(--border-color)]'>
                 <p onClick={() => navigate('my-profile')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Profile</p>
                 <p onClick={() => navigate('my-appointments')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Appointments</p>
                 <div className="h-px bg-gray-200 dark:bg-slate-700 my-1"></div>
