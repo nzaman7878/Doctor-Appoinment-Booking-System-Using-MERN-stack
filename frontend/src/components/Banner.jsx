@@ -24,7 +24,7 @@ const Banner = () => {
         <motion.button 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => { navigate('/login'); window.scrollTo(0,0); }} 
+          onClick={() => { navigate('/login'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
           className='bg-white text-sm sm:text-base text-[var(--color-primary)] font-medium px-8 py-3.5 rounded-xl mt-8 hover:bg-gray-50 transition-all duration-200 border border-gray-100'
         >
           Create account

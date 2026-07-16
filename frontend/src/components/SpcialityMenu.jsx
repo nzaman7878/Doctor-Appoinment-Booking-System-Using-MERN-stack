@@ -37,7 +37,7 @@ const SpcialityMenu = () => {
         {specialityData.map((item, index) => (
           <motion.div key={index} variants={itemVariants}>
             <Link
-              onClick={() => window.scrollTo(0, 0)}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className='flex flex-col items-center text-xs cursor-pointer flex-shrink-0 group'
               to={`/doctors/${item.speciality}`}
             >

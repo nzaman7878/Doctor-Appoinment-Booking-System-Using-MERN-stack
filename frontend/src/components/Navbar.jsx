@@ -59,10 +59,10 @@ const Navbar = () => {
 
             <div className='absolute top-full right-0 pt-4 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
               <div className='min-w-48 bg-[var(--card-bg)] rounded-xl flex flex-col gap-2 p-3 shadow-md border border-[var(--border-color)]'>
-                <p onClick={() => navigate('my-profile')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Profile</p>
-                <p onClick={() => navigate('my-appointments')} className='hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Appointments</p>
+                <button onClick={() => navigate('my-profile')} className='w-full text-left hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Profile</button>
+                <button onClick={() => navigate('my-appointments')} className='w-full text-left hover:bg-primary/5 hover:text-primary px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-slate-800'>My Appointments</button>
                 <div className="h-px bg-gray-200 dark:bg-slate-700 my-1"></div>
-                <p onClick={logout} className='hover:bg-red-50 hover:text-red-500 px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-red-900/30'>Logout</p>
+                <button onClick={logout} className='w-full text-left hover:bg-red-50 hover:text-red-500 px-4 py-2 rounded-lg cursor-pointer transition-colors dark:text-slate-300 dark:hover:bg-red-900/30'>Logout</button>
               </div>
             </div>
           </div>

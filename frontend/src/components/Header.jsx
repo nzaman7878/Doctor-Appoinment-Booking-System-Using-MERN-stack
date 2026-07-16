@@ -27,7 +27,7 @@ const Header = () => {
     >
 
       {/* ---------- Left Side ------------- */}
-      <div className='md:w-1/2 flex flex-col items-start justify-center gap-6 py-10 m-auto md:py-[10vw] md:mb-[-30px] z-10'>
+      <div className='md:w-1/2 flex flex-col items-start justify-center gap-6 py-10 m-auto md:py-[10vw] z-10'>
         <motion.p
           variants={itemVariants}
           className='text-3xl md:text-4xl lg:text-5xl text-white font-semibold leading-tight md:leading-tight lg:leading-tight'
@@ -36,7 +36,7 @@ const Header = () => {
         </motion.p>
         
         <motion.div variants={itemVariants} className='flex flex-col md:flex-row items-center gap-4 text-white/90 text-sm md:text-base font-light'>
-          <img className='w-28' src={assets.group_profiles} alt="Profiles" />
+          <img className='w-28' src={assets.group_profiles} alt="Avatars of trusted doctors" />
           <p>
             Browse our trusted doctors and book your appointment <br className='hidden sm:block' />
             instantly—fast, simple, and secure.
@@ -54,7 +54,7 @@ const Header = () => {
           <img 
             className='w-3 ml-2' 
             src={assets.arrow_icon} 
-            alt="Arrow" 
+            alt="Right arrow icon" 
           />
         </motion.a>
       </div>

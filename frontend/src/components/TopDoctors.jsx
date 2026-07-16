@@ -38,7 +38,7 @@ const TopDoctors = () => {
           <motion.div
             variants={itemVariants}
             whileHover={{ y: -4 }}
-            onClick={() => { navigate(`/appointment/${item._id}`); window.scrollTo(0, 0); }}
+            onClick={() => { navigate(`/appointment/${item._id}`); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             className='premium-card overflow-hidden cursor-pointer group'
             key={index}
           >
@@ -64,7 +64,7 @@ const TopDoctors = () => {
       <motion.button 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => { navigate('/doctors'); scrollTo(0, 0); }} 
+        onClick={() => { navigate('/doctors'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         className='bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 px-12 py-3 rounded-full mt-10 transition-colors shadow-sm'
       >
         View More

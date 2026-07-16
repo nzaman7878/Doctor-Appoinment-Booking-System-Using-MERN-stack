@@ -46,11 +46,11 @@ const Footer = () => {
         {/* ------Center Section --------- */}
         <motion.div variants={itemVariants}>
           <p className='text-lg font-medium mb-5 text-[var(--text-main)]'>COMPANY</p>
-          <ul className='flex flex-col gap-3 text-[var(--text-muted)]'>
-            <li onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Home</li>
-            <li onClick={() => handleNavigation('/about')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">About us</li>
-            <li onClick={() => handleNavigation('/contact')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Contact us</li>
-            <li onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer w-fit">Privacy policy</li>
+          <ul className='flex flex-col items-start gap-3 text-[var(--text-muted)]'>
+            <li><button onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer text-left">Home</button></li>
+            <li><button onClick={() => handleNavigation('/about')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer text-left">About us</button></li>
+            <li><button onClick={() => handleNavigation('/contact')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer text-left">Contact us</button></li>
+            <li><button onClick={() => handleNavigation('/')} className="hover:text-[var(--color-primary)] transition-colors cursor-pointer text-left">Privacy policy</button></li>
           </ul>
         </motion.div>
 
