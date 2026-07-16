@@ -24,7 +24,7 @@ const TopDoctors = () => {
 
   return (
     <div className='flex flex-col items-center gap-4 my-16 text-gray-900 dark:text-slate-100 md:mx-10'>
-      <h1 className='text-3xl font-medium text-slate-800 dark:text-slate-100'>Top Doctors to Book</h1>
+      <h1 className='text-3xl font-semibold text-slate-800 dark:text-slate-100'>Top Doctors to Book</h1>
       <p className='sm:w-1/3 text-center text-sm text-slate-500 dark:text-slate-400'>Simply browse through our extensive list of trusted doctors</p>
       
       <motion.div 
@@ -54,7 +54,7 @@ const TopDoctors = () => {
                 <p>{item.available ? 'Available' : 'Not Available'}</p>
               </div>
               
-              <p className='text-[var(--text-main)] text-lg font-medium transition-colors group-hover:text-[var(--color-primary)]'>{item.name}</p>
+              <p className='text-[var(--text-main)] text-lg font-semibold transition-colors group-hover:text-[var(--color-primary)]'>{item.name}</p>
               <p className='text-[var(--text-muted)] text-sm mt-1'>{item.speciality}</p>
             </div>
           </motion.div>
