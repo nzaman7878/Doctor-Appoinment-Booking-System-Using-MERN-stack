@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
   const { aToken, setAToken } = useContext(AdminContext)
   const { dToken, setDToken } = useContext(DoctorContext)
-  const { theme, toggleTheme } = useContext(AppContext)
+  const { theme, toggleTheme, toggleSidebar } = useContext(AppContext)
   const navigate = useNavigate()
 
   const logout = () => {
@@ -30,7 +30,12 @@ const Navbar = () => {
   return (
     <div className='sticky top-0 z-50 px-4 sm:px-10 py-3 mb-2'>
       <div className='flex justify-between items-center px-6 py-3 rounded-full bg-white dark:bg-[#212424] border border-[var(--border-color)] shadow-sm transition-all duration-300'>
-        <div className='flex items-center gap-4 text-xs'>
+        <div className='flex items-center gap-2 sm:gap-4 text-xs'>
+          <button onClick={toggleSidebar} className="sm:hidden text-[var(--text-main)] hover:text-[var(--color-primary)] transition-colors p-1" aria-label="Toggle Sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
           <img 
             className='w-36 sm:w-40 cursor-pointer dark:invert transition-all duration-300' 
             src={assets.admin_logo} 

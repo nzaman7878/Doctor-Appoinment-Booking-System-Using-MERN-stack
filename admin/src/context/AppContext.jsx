@@ -6,9 +6,14 @@ export const AppContext = createContext()
 const AppContextProvider = (props) => {
 
   const [theme, setTheme] = useState(localStorage.getItem('adminTheme') || 'light')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev)
   }
 
   useEffect(() => {
@@ -44,7 +49,10 @@ const calculateAge = (dob) => {
         calculateAge,
         slotDateFormat,
         theme,
-        toggleTheme
+        toggleTheme,
+        isSidebarOpen,
+        setIsSidebarOpen,
+        toggleSidebar
     }
     return (
         <AppContext.Provider value={value}>
