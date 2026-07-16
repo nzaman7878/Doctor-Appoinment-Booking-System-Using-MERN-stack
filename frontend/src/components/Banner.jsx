@@ -41,7 +41,7 @@ const Banner = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className='w-full absolute bottom-0 right-0 max-w-md drop-shadow-2xl' 
+          className='w-full absolute bottom-0 right-0 max-w-md drop-shadow-2xl'
           src={siteSettings?.banner_image || assets.appointment_img} 
           alt="Appointment" 
         />
