@@ -14,6 +14,19 @@ const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+  const [siteSettings, setSiteSettings] = useState({})
+
+  // Fetch site settings
+  const getSiteSettings = useCallback(async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/site/settings")
+      if (data.success) {
+        setSiteSettings(data.settings)
+      }
+    } catch (error) {
+      console.error("Error fetching site settings:", error)
+    }
+  }, [backendUrl])
 
   // Get doctors list
   const getDoctorsData = useCallback(async () => {
@@ -110,7 +123,8 @@ const AppContextProvider = ({ children }) => {
     isLoading,
     theme,
     toggleTheme,
-  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading, theme, toggleTheme])
+    siteSettings,
+  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading, theme, toggleTheme, siteSettings])
 
   // Handle token changes
   useEffect(() => {
@@ -133,10 +147,11 @@ const AppContextProvider = ({ children }) => {
 
 
 
-  // Fetch doctors on mount
+  // Fetch doctors and settings on mount
   useEffect(() => {
     getDoctorsData()
-  }, [getDoctorsData])
+    getSiteSettings()
+  }, [getDoctorsData, getSiteSettings])
 
   // Load user profile when token changes
   useEffect(() => {

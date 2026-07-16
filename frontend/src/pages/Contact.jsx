@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { motion } from 'framer-motion';
+import { AppContext } from '../context/AppContext';
 
 const Contact = () => {
+  const { siteSettings } = useContext(AppContext);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,7 +33,7 @@ const Contact = () => {
       
       <div className='flex flex-col md:flex-row justify-center gap-12 lg:gap-20 mb-28'>
         <motion.div variants={itemVariants} className="w-full md:w-1/2 lg:max-w-[450px] relative rounded-3xl overflow-hidden shadow-lg border border-[var(--border-color)]">
-          <img className='w-full object-cover relative z-10' src={assets.contact_image} alt="Contact us" />
+          <img className='w-full object-cover relative z-10' src={siteSettings?.contact_image || assets.contact_image} alt="Contact us" />
         </motion.div>
         
         <motion.div variants={itemVariants} className='flex flex-col justify-center items-start gap-8'>

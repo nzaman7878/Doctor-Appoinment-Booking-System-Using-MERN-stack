@@ -3,6 +3,7 @@ import { addDoctor,loginAdmin , allDoctors ,appointmentsAdmin, appointmentCancel
 import upload from '../middlewares/multer.js'
 import authAdmin from '../middlewares/authAdmin.js'
 import { changeAvailability } from "../controllers/doctorController.js";
+import { uploadSettingImage } from "../controllers/siteController.js";
 const adminRouter = express.Router()
 
 adminRouter.post('/add-doctor',authAdmin, upload.single('image'),addDoctor)
@@ -15,5 +16,6 @@ adminRouter.get('/dashboard',authAdmin, adminDashboard)
 adminRouter.post('/delete-doctor', authAdmin, deleteDoctor)
 adminRouter.post('/delete-appointment', authAdmin, deleteAppointment)
 adminRouter.post('/update-appointment', authAdmin, updateAppointment)
+adminRouter.post('/upload-setting-image', authAdmin, upload.single('image'), uploadSettingImage)
 
 export default adminRouter

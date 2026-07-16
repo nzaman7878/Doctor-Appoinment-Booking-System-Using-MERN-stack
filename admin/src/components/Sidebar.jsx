@@ -64,6 +64,13 @@ const Sidebar = () => {
                     </motion.div>
                 </NavLink>
 
+                 <NavLink onClick={() => isSidebarOpen && toggleSidebar()} className={({isActive})=>`flex items-center gap-3 py-3 px-3 md:px-9 md:min-w-64 cursor-pointer rounded-lg transition-all duration-300 ${isActive ? 'bg-[var(--color-primary)]/10 border-r-4 border-[var(--color-primary)] text-[var(--color-primary)] font-medium' : 'hover:bg-gray-50 dark:hover:bg-[#2A2D2D]'}`} to={'/site-settings'}>
+                    <motion.div variants={linkVariants} whileHover="hover" whileTap="tap" className="flex items-center gap-3 w-full">
+                      {/* Using upload icon for settings since it's an image manager */}
+                      <img src={assets.upload_area} alt="" className="dark:invert opacity-70 dark:opacity-100 w-6 h-6 object-contain" />
+                      <p className='hidden md:block'>Site Settings</p>
+                    </motion.div>
+                </NavLink>
             </ul>
         }
 

@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
-  const { token, setToken, userData, theme, toggleTheme } = useContext(AppContext);
+  const { token, setToken, userData, theme, toggleTheme, siteSettings } = useContext(AppContext);
 
   const logout = () => {
     setToken(false);
@@ -28,7 +28,7 @@ const Navbar = () => {
       <img
         onClick={() => navigate('/')}
         className='w-36 sm:w-44 cursor-pointer hover:opacity-80 transition-opacity dark:invert'
-        src={assets.logo}
+        src={siteSettings?.logo_image || assets.logo}
         alt="Logo"
       />
       

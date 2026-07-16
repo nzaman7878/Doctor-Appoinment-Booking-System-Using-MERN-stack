@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { motion } from 'framer-motion';
+import { AppContext } from '../context/AppContext';
 
 const Header = () => {
+  const { siteSettings } = useContext(AppContext);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -23,8 +25,15 @@ const Header = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className='flex flex-col md:flex-row flex-wrap bg-[var(--color-primary)] rounded-[20px] px-6 md:px-10 lg:px-20 relative overflow-hidden shadow-sm'
+      className={`flex flex-col md:flex-row flex-wrap rounded-[20px] px-6 md:px-10 lg:px-20 relative overflow-hidden shadow-sm bg-[var(--color-primary)]`}
+      style={siteSettings?.hero_image ? { 
+        backgroundImage: `url(${siteSettings.hero_image})`, 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center' 
+      } : {}}
     >
+      {/* Overlay to ensure text remains readable if a background image is set */}
+      {siteSettings?.hero_image && <div className="absolute inset-0 bg-[var(--color-primary)]/80 mix-blend-multiply z-0"></div>}
 
       {/* ---------- Left Side ------------- */}
       <div className='md:w-1/2 flex flex-col items-start justify-center gap-6 py-10 m-auto md:py-[10vw] z-10'>
@@ -76,7 +85,7 @@ const Header = () => {
         >
           <img
             className='w-full h-auto drop-shadow-2xl mix-blend-multiply opacity-95'
-            src={assets.indian_female_doctor}
+            src={siteSettings?.hero_doctor_image || assets.indian_female_doctor}
             alt="Trusted Doctor"
           />
         </motion.div>

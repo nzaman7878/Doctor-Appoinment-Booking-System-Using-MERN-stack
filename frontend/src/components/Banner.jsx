@@ -2,9 +2,12 @@ import React from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { AppContext } from '../context/AppContext';
+import { useContext } from 'react';
 
 const Banner = () => {
   const navigate = useNavigate();
+  const { siteSettings } = useContext(AppContext);
 
   return (
     <motion.div 
@@ -39,7 +42,7 @@ const Banner = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className='w-full absolute bottom-0 right-0 max-w-md drop-shadow-2xl' 
-          src={assets.appointment_img} 
+          src={siteSettings?.banner_image || assets.appointment_img} 
           alt="Appointment" 
         />
       </div>
