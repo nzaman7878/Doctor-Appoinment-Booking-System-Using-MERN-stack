@@ -77,21 +77,24 @@ const Dashboard = () => {
                 <p className="text-[var(--text-muted)] mt-0.5">{slotDateFormat(item.slotDate)}</p>
               </div>
               {item.cancelled ? (
-                <span className="px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-full text-xs font-semibold">Cancelled</span>
+                <span className="px-3 py-1 bg-[var(--color-danger-bg)] dark:bg-red-500/20 text-[var(--color-danger)] dark:text-red-400 rounded-full text-xs font-semibold">Cancelled</span>
               ) : item.isCompleted ? (
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-full text-xs font-semibold">Completed</span>
+                <span className="px-3 py-1 bg-[var(--color-success-bg)] dark:bg-green-500/20 text-[var(--color-success)] dark:text-green-400 rounded-full text-xs font-semibold">Completed</span>
               ) : (
                 <motion.button 
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => {
-                    cancelAppointment(item._id)
-                    getDashData()
+                    if (window.confirm("Are you sure you want to cancel this appointment?")) {
+                      cancelAppointment(item._id)
+                      getDashData()
+                    }
                   }} 
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 transition-colors"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--color-danger-bg)] dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-[var(--color-danger)] transition-colors"
                   title="Cancel Appointment"
+                  aria-label="Cancel Appointment"
                 >
-                  <img className="w-5 dark:invert" src={assets.cancel_icon} alt="Cancel" />
+                  <img className="w-5 dark:invert" src={assets.cancel_icon} alt="" />
                 </motion.button>
               )}
             </motion.div>

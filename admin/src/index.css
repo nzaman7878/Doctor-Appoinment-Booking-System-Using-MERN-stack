@@ -21,8 +21,16 @@
   :root {
     --bg-main: #F9F8F6; /* Warm Neutral Background */
     --text-main: #2C3333; /* Soft Charcoal */
+    --text-muted: #4A5555; /* Lighter Charcoal */
     --border-color: #E7E2DA; /* Warm Gray */
     --card-bg: #FFFFFF;
+    
+    /* Semantic Colors */
+    --color-success: #16a34a; /* green-600 */
+    --color-success-bg: #dcfce7; /* green-100 */
+    --color-danger: #dc2626; /* red-600 */
+    --color-danger-bg: #fee2e2; /* red-100 */
+    
     --transition-standard: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
