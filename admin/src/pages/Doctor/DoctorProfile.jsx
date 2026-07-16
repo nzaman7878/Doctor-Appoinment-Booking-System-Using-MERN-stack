@@ -178,7 +178,7 @@ const DoctorProfile = () => {
                   </div>
 
                   <div className="flex items-center gap-2 py-2">
-                    <div className={`w-3 h-3 rounded-full ${profileData.available ? 'bg-green-500' : 'bg-slate-400'}`}></div>
+                    <div className={`w-3 h-3 rounded-full ${profileData.available ? 'bg-[var(--color-success)]' : 'bg-slate-400'}`}></div>
                     <span className="text-sm font-semibold text-[var(--text-main)]">
                       {profileData.available ? 'Currently Available' : 'Currently Unavailable'}
                     </span>

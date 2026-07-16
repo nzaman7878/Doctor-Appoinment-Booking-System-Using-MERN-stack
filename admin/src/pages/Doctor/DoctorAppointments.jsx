@@ -91,28 +91,38 @@ const DoctorAppointments = () => {
                   <p className='font-medium'>{currency}{item.amount}</p>
                   
                   {item.cancelled ? (
-                    <span className="px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-xl text-xs font-semibold max-w-fit">Cancelled</span>
+                    <span className="px-3 py-1 bg-[var(--color-danger-bg)] dark:bg-red-500/20 text-[var(--color-danger)] dark:text-red-400 rounded-xl text-xs font-semibold max-w-fit">Cancelled</span>
                   ) : item.isCompleted ? (
-                    <span className="px-3 py-1 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-xl text-xs font-semibold max-w-fit">Completed</span>
+                    <span className="px-3 py-1 bg-[var(--color-success-bg)] dark:bg-green-500/20 text-[var(--color-success)] dark:text-green-400 rounded-xl text-xs font-semibold max-w-fit">Completed</span>
                   ) : (
                     <div className='flex gap-2'>
                       <motion.button 
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => cancelAppointment(item._id)} 
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-500 transition-colors"
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to cancel this appointment?")) {
+                            cancelAppointment(item._id)
+                          }
+                        }} 
+                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--color-danger-bg)] dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-[var(--color-danger)] transition-colors"
                         title="Cancel"
+                        aria-label="Cancel Appointment"
                       >
-                        <img className="w-5 dark:invert" src={assets.cancel_icon} alt="Cancel" />
+                        <img className="w-5 dark:invert" src={assets.cancel_icon} alt="" />
                       </motion.button>
                       <motion.button 
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => completeAppointment(item._id)} 
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-green-50 dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 text-green-500 transition-colors"
+                        onClick={() => {
+                          if (window.confirm("Mark this appointment as completed?")) {
+                            completeAppointment(item._id)
+                          }
+                        }} 
+                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--color-success-bg)] dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 text-[var(--color-success)] transition-colors"
                         title="Complete"
+                        aria-label="Mark as Completed"
                       >
-                        <img className="w-5 dark:invert" src={assets.tick_icon} alt="Complete" />
+                        <img className="w-5 dark:invert" src={assets.tick_icon} alt="" />
                       </motion.button>
                     </div>
                   )}
