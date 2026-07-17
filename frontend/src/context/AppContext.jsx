@@ -60,6 +60,10 @@ const AppContextProvider = ({ children }) => {
         setUserData(data.userData)
       } else {
         toast.error(data.message)
+        if (data.message === 'Invalid token' || data.message === 'Token expired' || data.message.includes('Unauthorized') || data.message === 'User not found') {
+          setToken('')
+          localStorage.removeItem('token')
+        }
       }
     } catch (error) {
       console.error(error)

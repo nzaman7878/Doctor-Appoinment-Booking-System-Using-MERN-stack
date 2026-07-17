@@ -66,6 +66,8 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+        ) : token ? (
+          <div className='w-9 h-9 rounded-full bg-gray-200 animate-pulse border-2 border-primary/20 hidden md:block'></div>
         ) : (
           <button onClick={() => navigate('/login')} className='bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-medium hidden md:block hover:bg-[var(--color-primary-light)] transition-all duration-200'>
             Create Account
