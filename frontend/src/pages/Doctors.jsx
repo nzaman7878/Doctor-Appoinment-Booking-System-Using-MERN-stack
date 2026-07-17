@@ -8,7 +8,7 @@ const Doctors = () => {
   const [filterDoc, setFilterDoc] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
-  const { doctors } = useContext(AppContext);
+  const { doctors, isLoadingDoctors } = useContext(AppContext);
 
   const applyFilter = () => {
     if (speciality) {
@@ -72,37 +72,50 @@ const Doctors = () => {
         <div className="w-full">
           <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-8">
             <AnimatePresence>
-              {filterDoc.map((item) => (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  key={item._id}
-                  onClick={() => navigate(`/appointment/${item._id}`)}
-                  className="premium-card overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-200 group"
-                >
-                  <div className="relative bg-gray-50 dark:bg-[#2A2D2D] overflow-hidden">
-                    <img className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" src={item.image} alt={item.name} />
-                  </div>
-                  
-                  <div className="p-5">
-                    <div className={`flex items-center gap-2 text-xs font-medium mb-2 ${item.available ? 'text-[var(--color-accent)]' : 'text-[var(--text-muted)]'}`}>
-                      <span className="relative flex h-2 w-2">
-                        <span className={`relative inline-flex rounded-full h-2 w-2 ${item.available ? 'bg-[var(--color-accent)]' : 'bg-[var(--text-muted)]'}`}></span>
-                      </span>
-                      <p>{item.available ? 'Available' : 'Not Available'}</p>
+              {isLoadingDoctors ? (
+                Array(6).fill(0).map((_, index) => (
+                  <div key={`skeleton-${index}`} className='premium-card overflow-hidden animate-pulse'>
+                    <div className='w-full h-56 bg-slate-200 dark:bg-[#2A2D2D]'></div>
+                    <div className='p-5'>
+                      <div className='w-20 h-4 bg-slate-200 dark:bg-slate-600 rounded mb-3'></div>
+                      <div className='w-3/4 h-6 bg-slate-200 dark:bg-slate-600 rounded mb-2'></div>
+                      <div className='w-1/2 h-4 bg-slate-200 dark:bg-slate-600 rounded'></div>
                     </div>
-
-                    <p className="text-[var(--text-main)] text-xl font-medium group-hover:text-[var(--color-primary)] transition-colors">{item.name}</p>
-                    <p className="text-[var(--text-muted)] text-sm mt-1">{item.speciality}</p>
                   </div>
-                </motion.div>
-              ))}
+                ))
+              ) : (
+                filterDoc.map((item) => (
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    key={item._id}
+                    onClick={() => navigate(`/appointment/${item._id}`)}
+                    className="premium-card overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-200 group"
+                  >
+                    <div className="relative bg-gray-50 dark:bg-[#2A2D2D] overflow-hidden">
+                      <img className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" src={item.image} alt={item.name} />
+                    </div>
+                    
+                    <div className="p-5">
+                      <div className={`flex items-center gap-2 text-xs font-medium mb-2 ${item.available ? 'text-[var(--color-accent)]' : 'text-[var(--text-muted)]'}`}>
+                        <span className="relative flex h-2 w-2">
+                          <span className={`relative inline-flex rounded-full h-2 w-2 ${item.available ? 'bg-[var(--color-accent)]' : 'bg-[var(--text-muted)]'}`}></span>
+                        </span>
+                        <p>{item.available ? 'Available' : 'Not Available'}</p>
+                      </div>
+
+                      <p className="text-[var(--text-main)] text-xl font-medium group-hover:text-[var(--color-primary)] transition-colors">{item.name}</p>
+                      <p className="text-[var(--text-muted)] text-sm mt-1">{item.speciality}</p>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </AnimatePresence>
           </motion.div>
-          {filterDoc.length === 0 && (
+          {!isLoadingDoctors && filterDoc.length === 0 && (
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

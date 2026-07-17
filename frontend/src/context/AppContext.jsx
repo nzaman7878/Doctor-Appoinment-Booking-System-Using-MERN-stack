@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
   )
   const [userData, setUserData] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingDoctors, setIsLoadingDoctors] = useState(true)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
   const [siteSettings, setSiteSettings] = useState({})
 
@@ -30,6 +31,7 @@ const AppContextProvider = ({ children }) => {
 
   // Get doctors list
   const getDoctorsData = useCallback(async () => {
+    setIsLoadingDoctors(true)
     try {
       const { data } = await axios.get(backendUrl + "/api/doctor/list")
       if (data.success) {
@@ -40,6 +42,8 @@ const AppContextProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
       toast.error(error.response?.data?.message || error.message)
+    } finally {
+      setIsLoadingDoctors(false)
     }
   }, [backendUrl])
 
@@ -121,10 +125,11 @@ const AppContextProvider = ({ children }) => {
     loadUserProfileData,
     updateUserProfile,
     isLoading,
+    isLoadingDoctors,
     theme,
     toggleTheme,
     siteSettings,
-  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading, theme, toggleTheme, siteSettings])
+  }), [doctors, token, userData, loadUserProfileData, updateUserProfile, isLoading, isLoadingDoctors, theme, toggleTheme, siteSettings])
 
   // Handle token changes
   useEffect(() => {

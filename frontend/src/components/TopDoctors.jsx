@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const TopDoctors = () => {
   const navigate = useNavigate();
-  const { doctors } = useContext(AppContext);
+  const { doctors, isLoadingDoctors } = useContext(AppContext);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,31 +34,44 @@ const TopDoctors = () => {
         viewport={{ once: true, margin: "-50px" }}
         className='w-full grid grid-cols-[var(--grid-cols-auto)] gap-6 pt-8 px-3 sm:px-0'
       >
-        {doctors.slice(0, 10).map((item, index) => (
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -4 }}
-            onClick={() => { navigate(`/appointment/${item._id}`); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className='premium-card overflow-hidden cursor-pointer group'
-            key={index}
-          >
-            <div className='relative overflow-hidden bg-gray-50 dark:bg-[#2A2D2D]'>
-              <img className='w-full object-cover transition-transform duration-500 group-hover:scale-105' src={item.image} alt={item.name} />
+        {isLoadingDoctors ? (
+          Array(10).fill(0).map((_, index) => (
+            <div key={`skeleton-${index}`} className='premium-card overflow-hidden animate-pulse'>
+              <div className='w-full h-56 bg-slate-200 dark:bg-[#2A2D2D]'></div>
+              <div className='p-5'>
+                <div className='w-20 h-4 bg-slate-200 dark:bg-slate-600 rounded mb-3'></div>
+                <div className='w-3/4 h-6 bg-slate-200 dark:bg-slate-600 rounded mb-2'></div>
+                <div className='w-1/2 h-4 bg-slate-200 dark:bg-slate-600 rounded'></div>
+              </div>
             </div>
-            
-            <div className='p-5'>
-              <div className={`flex items-center gap-2 text-xs font-medium mb-2 ${item.available ? 'text-[var(--color-accent)]' : 'text-[var(--text-muted)]'}`}>
-                <span className="relative flex h-2 w-2">
-                  <span className={`relative inline-flex rounded-full h-2 w-2 ${item.available ? 'bg-[var(--color-accent)]' : 'bg-[var(--text-muted)]'}`}></span>
-                </span>
-                <p>{item.available ? 'Available' : 'Not Available'}</p>
+          ))
+        ) : (
+          doctors.slice(0, 10).map((item, index) => (
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -4 }}
+              onClick={() => { navigate(`/appointment/${item._id}`); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              className='premium-card overflow-hidden cursor-pointer group'
+              key={index}
+            >
+              <div className='relative overflow-hidden bg-gray-50 dark:bg-[#2A2D2D]'>
+                <img className='w-full object-cover transition-transform duration-500 group-hover:scale-105' src={item.image} alt={item.name} />
               </div>
               
-              <p className='text-[var(--text-main)] text-lg font-semibold transition-colors group-hover:text-[var(--color-primary)]'>{item.name}</p>
-              <p className='text-[var(--text-muted)] text-sm mt-1'>{item.speciality}</p>
-            </div>
-          </motion.div>
-        ))}
+              <div className='p-5'>
+                <div className={`flex items-center gap-2 text-xs font-medium mb-2 ${item.available ? 'text-[var(--color-accent)]' : 'text-[var(--text-muted)]'}`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${item.available ? 'bg-[var(--color-accent)]' : 'bg-[var(--text-muted)]'}`}></span>
+                  </span>
+                  <p>{item.available ? 'Available' : 'Not Available'}</p>
+                </div>
+                
+                <p className='text-[var(--text-main)] text-lg font-semibold transition-colors group-hover:text-[var(--color-primary)]'>{item.name}</p>
+                <p className='text-[var(--text-muted)] text-sm mt-1'>{item.speciality}</p>
+              </div>
+            </motion.div>
+          ))
+        )}
       </motion.div>
       
       <motion.button 

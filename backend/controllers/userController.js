@@ -7,6 +7,7 @@ import appointmentModel from '../models/appointmentModel.js'
 import doctorModel from '../models/doctorModel.js'
 import razorpay from 'razorpay'
 import crypto from 'crypto'  // Add this at top
+import { sendEmail } from '../config/nodemailer.js'
 // API to register user
 
 const registerUser = async (req, res) => {
@@ -197,6 +198,13 @@ const bookAppointment = async (req, res) => {
 
         await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
+        // Send confirmation email to user
+        const emailSubject = "Appointment Confirmed - DocConnect";
+        const emailText = `Dear ${userData.name},\n\nYour appointment with ${docInfo.name} is confirmed for ${slotDate} at ${slotTime}.\n\nThank you,\nDocConnect Team`;
+        const emailHtml = `<h3>Appointment Confirmed</h3><p>Dear ${userData.name},</p><p>Your appointment with <strong>${docInfo.name}</strong> is confirmed for <strong>${slotDate}</strong> at <strong>${slotTime}</strong>.</p><p>Thank you,<br/>DocConnect Team</p>`;
+        
+        await sendEmail(userData.email, emailSubject, emailText, emailHtml);
+
         res.json({ success: true, message: 'Appointment Booked' })
 
     } catch (error) {
@@ -210,9 +218,27 @@ const listAppointment = async (req, res) => {
     try {
         const userId = req.userId  
         
-        const appointments = await appointmentModel.find({userId})
+        // Pagination logic
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 50; // default to 50 for backward compatibility with frontend
+        const skip = (page - 1) * limit;
 
-        res.json({ success: true, appointments})
+        const appointments = await appointmentModel.find({userId})
+            .sort({ date: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        const total = await appointmentModel.countDocuments({userId});
+
+        res.json({ 
+            success: true, 
+            appointments,
+            pagination: {
+                total,
+                page,
+                pages: Math.ceil(total / limit)
+            }
+        })
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -267,6 +293,16 @@ const cancelAppointment = async (req, res) => {
     }
 
     await doctorModel.findByIdAndUpdate(docId, { slots_booked })
+
+    // Fetch user to get email
+    const userData = await userModel.findById(userId);
+
+    // Send cancellation email to user
+    const emailSubject = "Appointment Cancelled - DocConnect";
+    const emailText = `Dear ${userData.name},\n\nYour appointment with ${doctorData.name} on ${slotDate} at ${slotTime} has been cancelled.\n\nThank you,\nDocConnect Team`;
+    const emailHtml = `<h3>Appointment Cancelled</h3><p>Dear ${userData.name},</p><p>Your appointment with <strong>${doctorData.name}</strong> on <strong>${slotDate}</strong> at <strong>${slotTime}</strong> has been cancelled.</p><p>Thank you,<br/>DocConnect Team</p>`;
+    
+    await sendEmail(userData.email, emailSubject, emailText, emailHtml);
 
     res.json({ success: true, message: "Appointment Cancelled" })
   } catch (error) {

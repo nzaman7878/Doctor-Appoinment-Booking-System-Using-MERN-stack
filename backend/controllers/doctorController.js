@@ -31,11 +31,21 @@ const changeAvailability = async (req, res) => {
 
 const doctorList = async (req, res) => {
   try {
-    const doctors = await doctorModel.find().select("-password -email");
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 50;
+    const skip = (page - 1) * limit;
+
+    const doctors = await doctorModel.find().select("-password -email").skip(skip).limit(limit);
+    const total = await doctorModel.countDocuments();
     
     res.json({
       success: true,
-      doctors
+      doctors,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit)
+      }
     });
     
   } catch (error) {

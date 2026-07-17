@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const MyAppointments = () => {
   const { backendUrl, token, getDoctorsData } = useContext(AppContext);
   const [appointments, setAppointment] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -19,6 +20,7 @@ const MyAppointments = () => {
 
   const getUserAppointments = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         backendUrl + '/api/user/appointments',
         { headers: { token } }
@@ -30,6 +32,8 @@ const MyAppointments = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,7 +145,25 @@ const MyAppointments = () => {
         className="mt-8 space-y-6"
       >
         <AnimatePresence>
-          {appointments.length > 0 ? (
+          {loading ? (
+            Array(3).fill(0).map((_, index) => (
+              <div key={`skeleton-${index}`} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 premium-card animate-pulse">
+                <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+                  <div className="flex-shrink-0 w-32 h-32 rounded-xl bg-slate-200 dark:bg-slate-700"></div>
+                  <div className="flex-1 flex flex-col justify-center gap-3">
+                    <div className="w-48 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div className="w-32 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div className="w-40 h-16 bg-slate-200 dark:bg-slate-700 rounded mt-1"></div>
+                    <div className="w-48 h-8 bg-slate-200 dark:bg-slate-700 rounded mt-2"></div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3 w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-[var(--border-color)] sm:pl-6">
+                  <div className="w-full h-10 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+                  <div className="w-full h-10 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+                </div>
+              </div>
+            ))
+          ) : appointments.length > 0 ? (
             appointments.slice(0, 20).map((item) => (
               <motion.div
                 layout
