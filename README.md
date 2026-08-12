@@ -288,5 +288,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 <p align="center">
-  <i>Developed with ❤️ by <a href="https://github.com/your-username">Your Name/Organization</a></i>
+  <i>Developed with ❤️ by <a href="https://github.com/your-username">NURUZZAMAN</a></i>
 </p>
