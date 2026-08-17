@@ -1,48 +1,59 @@
 <div align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/3063/3063057.png" alt="Logo" width="80" height="80">
+  <img src="https://cdn-icons-png.flaticon.com/512/3063/3063057.png" alt="DocConnect Logo" width="80" height="80">
 
-  <h3 align="center">🩺 Doctor Appointment Booking System</h3>
+  <h1>🩺 DocConnect — Doctor Appointment Booking System</h1>
 
-  <p align="center">
-    A comprehensive, production-ready MERN-stack web application designed to streamline healthcare scheduling.
-    <br />
-    <a href="#-project-overview"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="#-installation--setup">View Demo</a>
-    ·
-    <a href="#-api-documentation">Report Bug</a>
-    ·
-    <a href="#-installation--setup">Request Feature</a>
+  <p>
+    A full-stack, production-ready healthcare scheduling platform built with the <strong>MERN stack</strong>.<br />
+    Three distinct portals — <strong>Patient</strong>, <strong>Doctor</strong>, and <strong>Admin</strong> — secured via <strong>JWT-based RBAC</strong>,<br />
+    with integrated <strong>Razorpay payments</strong>, <strong>Cloudinary media management</strong>, and <strong>email notifications</strong>.
   </p>
+
+  <br />
+
+  <a href="#-project-overview"><strong>Overview</strong></a> ·
+  <a href="#-key-features"><strong>Features</strong></a> ·
+  <a href="#-api-documentation"><strong>API Docs</strong></a> ·
+  <a href="#-installation--setup"><strong>Setup</strong></a> ·
+  <a href="#-high-level-design-hld"><strong>HLD</strong></a> ·
+  <a href="#-low-level-design-lld"><strong>LLD</strong></a>
 </div>
+
+<br />
 
 <!-- BADGES -->
 <div align="center">
   <img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Vite_7-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
+  <img src="https://img.shields.io/badge/Express_5-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
   <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
   <img src="https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=3395FF" alt="Razorpay" />
+  <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary" />
 </div>
 
 ---
 
-<details>
-  <summary>Table of Contents</summary>
+<details open>
+  <summary><strong>📑 Table of Contents</strong></summary>
   <ol>
     <li><a href="#-project-overview">Project Overview</a></li>
     <li><a href="#-key-features">Key Features</a></li>
     <li><a href="#-technology-stack">Technology Stack</a></li>
-    <li><a href="#-system-architecture">System Architecture</a></li>
-    <li><a href="#-data-flow-sequence">Data Flow Sequence</a></li>
+    <li><a href="#-high-level-design-hld">High-Level Design (HLD)</a></li>
+    <li><a href="#-low-level-design-lld">Low-Level Design (LLD)</a></li>
+    <li><a href="#-data-flow">Data Flow</a></li>
     <li><a href="#-project-structure">Project Structure</a></li>
-    <li><a href="#-database-schema">Database Schema</a></li>
+    <li><a href="#-database-architecture">Database Architecture</a></li>
     <li><a href="#-api-documentation">API Documentation</a></li>
+    <li><a href="#-authentication--authorization">Authentication & Authorization</a></li>
     <li><a href="#-installation--setup">Installation & Setup</a></li>
     <li><a href="#-environment-variables">Environment Variables</a></li>
-    <li><a href="#-deployment-workflow">Deployment Workflow</a></li>
+    <li><a href="#-development-workflow">Development Workflow</a></li>
+    <li><a href="#-deployment">Deployment</a></li>
+    <li><a href="#-technical-decisions">Technical Decisions</a></li>
+    <li><a href="#-future-improvements">Future Improvements</a></li>
     <li><a href="#-contributing">Contributing</a></li>
     <li><a href="#-license">License</a></li>
   </ol>
@@ -51,242 +62,877 @@
 ---
 
 ## 📖 Project Overview
-The **Doctor Appointment Booking System** is an enterprise-grade healthcare scheduling platform built using the modern MERN stack. It offers three distinct, secure portals:
-1. **Patient Portal (Frontend)**: For patients to discover doctors, book appointments, and pay online.
-2. **Doctor Portal (Admin/Staff)**: For healthcare professionals to manage their availability and upcoming appointments.
-3. **Administrator Portal (Admin)**: For hospital administrators to manage personnel, view system-wide analytics, and update site configurations.
+
+**DocConnect** is a comprehensive healthcare appointment management platform built on the **MERN stack** (MongoDB, Express.js, React, Node.js). It provides three separate, role-secured web applications:
+
+| Portal | Purpose | Users |
+| :--- | :--- | :--- |
+| **Patient Portal** (`frontend/`) | Browse doctors, book appointments, make online payments, manage profile | Patients |
+| **Doctor Portal** (`admin/` — Doctor login) | View assigned appointments, mark completions, update profile & availability | Doctors |
+| **Admin Portal** (`admin/` — Admin login) | Manage doctors (CRUD), oversee all appointments (cancel/edit/delete), view dashboard analytics, configure site settings | Hospital administrators |
+
+The admin and doctor portals share a single React application (`admin/`), which conditionally renders different navigation and views based on the authenticated role.
+
+---
 
 ## ✨ Key Features
-- **Role-Based Access Control (RBAC)**: Secure, distinct portals for Admins, Doctors, and Users utilizing JWT.
-- **Dynamic Scheduling**: Real-time availability tracking (`slots_booked` matrix) preventing double-booking.
-- **Payment Gateway Integration**: Secure online consultation fee processing via **Razorpay**.
-- **Media Management**: Optimized profile picture and document uploads handled natively by **Cloudinary**.
-- **Responsive UI/UX**: State-of-the-art interface built with **Tailwind CSS v4** and animated using **Framer Motion**.
-- **Automated Notifications**: NodeMailer integration for sending status updates to patients and doctors.
+
+### Patient Portal
+- 🔍 **Doctor Discovery** — Browse and filter doctors by speciality with paginated listings
+- 📅 **Smart Scheduling** — Real-time slot-based booking with `slots_booked` matrix preventing double-booking
+- 💳 **Razorpay Payments** — Secure online fee payment with cryptographic signature verification (HMAC-SHA256)
+- 👤 **Profile Management** — Update personal info (name, phone, DOB, gender, address) with Cloudinary image uploads
+- 📋 **Appointment History** — View, paginate, and cancel bookings with automatic slot release
+- 📧 **Email Notifications** — Receive booking confirmations and cancellation alerts via Nodemailer (Gmail SMTP)
+- 🌗 **Dark/Light Theme** — Toggle between themes with persistence via `localStorage`
+
+### Doctor Portal
+- 📊 **Dashboard Analytics** — View earnings, appointment count, unique patient count, and latest 5 appointments
+- 📋 **Appointment Management** — View all assigned appointments, mark as completed, or cancel
+- ⚙️ **Profile & Availability** — Update consultation fees, clinic address, and toggle availability status
+- 🔐 **Secure Login** — JWT-authenticated with 7-day token expiry
+
+### Admin Portal
+- 👨‍⚕️ **Doctor Management** — Add new doctors (with image upload), view all doctors, toggle availability, delete doctors
+- 📋 **Full Appointment Control** — View all system appointments, cancel, edit (reschedule to different doctor/slot), or permanently delete
+- 📊 **System Dashboard** — KPI cards for total doctors, patients, appointments, plus latest 5 appointments
+- 🖼️ **Site Settings** — Upload and manage site-wide image assets via Cloudinary (key-value configuration)
+- 🔐 **Rate-Limited Login** — 5 attempts per 15-minute window via `express-rate-limit`
+
+### Cross-Cutting Concerns
+- 🛡️ **Security** — Helmet HTTP headers, CORS origin whitelisting, bcrypt password hashing, JWT authentication
+- ⚡ **Rate Limiting** — Brute-force protection on authentication endpoints
+- 🌐 **Global Error Handler** — Centralized error handling middleware with stack traces in development mode
+- 📱 **Responsive UI** — Mobile-first design with Tailwind CSS v4 and Framer Motion animations
 
 ---
 
 ## 🛠 Technology Stack
 
-### Frontend (Patient Panel & Admin/Doctor Panel)
-| Category | Technology |
-| :--- | :--- |
-| **Framework** | React.js (v19) via Vite |
-| **Styling** | Tailwind CSS v4, Framer Motion |
-| **Routing** | React Router v7 |
-| **State/API** | Axios, Context API |
-| **Alerts/Icons**| React Toastify, Lucide React |
+### Frontend — Patient Portal & Admin/Doctor Portal
 
-### Backend (REST API)
-| Category | Technology |
-| :--- | :--- |
-| **Runtime / Core** | Node.js, Express.js |
-| **Database** | MongoDB, Mongoose ODM |
-| **Security** | JWT, Bcryptjs, Helmet, Express-Rate-Limit, CORS |
-| **File Storage** | Cloudinary, Multer (Middleware) |
-| **Services** | Razorpay (Payments), Nodemailer (Emails) |
+| Category | Technology | Version |
+| :--- | :--- | :--- |
+| **UI Library** | React | v19.1 |
+| **Build Tool** | Vite | v7.x |
+| **Styling** | Tailwind CSS | v4.1 |
+| **Animations** | Framer Motion | v12.x |
+| **Routing** | React Router DOM | v7.9 |
+| **HTTP Client** | Axios | v1.x |
+| **Notifications** | React Toastify | v11.x |
+| **Icons** | Lucide React | v1.23 (Patient portal only) |
+
+### Backend — REST API Server
+
+| Category | Technology | Version |
+| :--- | :--- | :--- |
+| **Runtime** | Node.js | v18+ |
+| **Framework** | Express.js | v5.1 |
+| **Database** | MongoDB Atlas + Mongoose ODM | v8.19 |
+| **Authentication** | JSON Web Tokens (jsonwebtoken) | v9.0 |
+| **Password Hashing** | bcrypt + bcryptjs | v6.0 / v3.0 |
+| **Input Validation** | validator.js | v13.x |
+| **File Upload** | Multer (disk storage) → Cloudinary | v2.0 |
+| **Media CDN** | Cloudinary | v2.7 |
+| **Payments** | Razorpay | v2.9 |
+| **Email** | Nodemailer (Gmail SMTP) | v9.0 |
+| **Security** | Helmet, express-rate-limit, CORS | Latest |
+| **Dev Server** | Nodemon | v3.1 |
 
 ---
 
-## 🏗 System Architecture
+## 🏗 High-Level Design (HLD)
 
-### High-Level Design (HLD)
+### System Architecture
+
 ```mermaid
-graph TD
-    Client_Patient[Patient Frontend UI] -->|HTTPS/REST| API_Gateway[Express Backend API]
-    Client_Admin[Admin/Doctor UI] -->|HTTPS/REST| API_Gateway
-    
-    subgraph Backend Infrastructure
-    API_Gateway --> AuthMiddleware{JWT Verification}
-    AuthMiddleware --> Controllers[Logic Controllers]
-    Controllers -->|Mongoose| Database[(MongoDB Atlas)]
+graph TB
+    subgraph "Client Layer"
+        FE["Patient Portal<br/>(React + Vite)<br/>:5173"]
+        AD["Admin/Doctor Portal<br/>(React + Vite)<br/>:5174"]
     end
-    
-    subgraph Third-Party Integrations
-    Controllers -->|Media Uploads| Cloudinary[Cloudinary CDN]
-    Controllers -->|Transactions| Razorpay[Razorpay Gateway]
-    Controllers -->|SMTP| Nodemailer[Email Server]
+
+    subgraph "API Layer"
+        GW["Express.js API Server<br/>:4000"]
+    end
+
+    subgraph "Middleware Pipeline"
+        HE[Helmet<br/>Security Headers]
+        CO[CORS<br/>Origin Whitelist]
+        RL[Rate Limiter<br/>Auth Endpoints]
+        AU["JWT Auth<br/>(authUser / authAdmin / authDoctor)"]
+        MU[Multer<br/>File Upload]
+    end
+
+    subgraph "Business Logic"
+        UC[User Controller]
+        DC[Doctor Controller]
+        AC[Admin Controller]
+        SC[Site Controller]
+    end
+
+    subgraph "Data Layer"
+        DB[(MongoDB Atlas)]
+    end
+
+    subgraph "External Services"
+        CL[Cloudinary CDN<br/>Image Storage]
+        RP[Razorpay<br/>Payment Gateway]
+        NM[Nodemailer<br/>Gmail SMTP]
+    end
+
+    FE -->|HTTPS / REST| GW
+    AD -->|HTTPS / REST| GW
+    GW --> HE --> CO --> RL
+    GW --> AU --> MU
+    AU --> UC & DC & AC & SC
+    UC & DC & AC --> DB
+    SC --> DB
+    AC -->|Upload Doctor Image| CL
+    UC -->|Upload Profile Image| CL
+    SC -->|Upload Setting Image| CL
+    UC -->|Create Order + Verify| RP
+    UC -->|Booking/Cancellation Emails| NM
+```
+
+### Architecture Patterns & Principles
+
+| Pattern | Implementation |
+| :--- | :--- |
+| **Monorepo Structure** | Three independent apps (`frontend/`, `admin/`, `backend/`) in one repository |
+| **MVC-like** | Models (Mongoose schemas) → Controllers (business logic) → Routes (Express endpoints) |
+| **Role-Based Access** | Three separate JWT middleware functions enforce distinct access per role |
+| **Context API State** | React Context providers manage global state; no external state library (e.g., Redux) |
+| **Optimistic UI** | Admin availability toggle updates UI immediately, reverts on server error |
+
+---
+
+## 📐 Low-Level Design (LLD)
+
+### Component Interaction Diagram
+
+```mermaid
+graph LR
+    subgraph "Patient Frontend (React)"
+        AppCtx["AppContext<br/>(doctors, token, userData,<br/>theme, siteSettings)"]
+        Pages["Pages<br/>Home | Doctors | Appointment<br/>MyProfile | MyAppointments<br/>Login | About | Contact"]
+        Comps["Components<br/>Navbar | Footer | Header<br/>Banner | TopDoctors<br/>SpecialityMenu | RelatedDoctors"]
+        Pages --> AppCtx
+        Comps --> AppCtx
+    end
+
+    subgraph "Admin/Doctor Frontend (React)"
+        ACtx["AdminContext<br/>(aToken, doctors,<br/>appointments, dashData)"]
+        DCtx["DoctorContext<br/>(dToken, appointments,<br/>dashData, profileData)"]
+        ApCtx["AppContext<br/>(theme, sidebar,<br/>slotDateFormat, calculateAge)"]
+        APages["Admin Pages<br/>Dashboard | AllAppointments<br/>AddDoctor | DoctorList<br/>SiteSettings"]
+        DPages["Doctor Pages<br/>DoctorDashboard<br/>DoctorAppointments<br/>DoctorProfile"]
+        AComps["Components<br/>Navbar | Sidebar<br/>EditAppointmentModal"]
+        APages --> ACtx & ApCtx
+        DPages --> DCtx & ApCtx
+        AComps --> ACtx & DCtx & ApCtx
+    end
+
+    subgraph "Backend (Express.js)"
+        MW["Middleware Stack<br/>helmet → cors → json<br/>→ rateLimiter → auth → multer"]
+        Routes["Route Layer<br/>/api/user | /api/doctor<br/>/api/admin | /api/site"]
+        Ctrl["Controller Layer<br/>userController | doctorController<br/>adminController | siteController"]
+        Models["Model Layer<br/>User | Doctor<br/>Appointment | SiteSetting"]
+        Config["Config Layer<br/>MongoDB | Cloudinary | Nodemailer"]
+        Routes --> MW --> Ctrl --> Models --> Config
     end
 ```
 
-### 🔄 Data Flow Sequence: Booking an Appointment
+### Slot Booking Algorithm (LLD)
+
+The slot availability system uses a `slots_booked` object on each Doctor document, structured as a date-to-time-array map:
+
+```json
+{
+  "slots_booked": {
+    "15_8_2026": ["10:00 am", "10:30 am", "2:00 pm"],
+    "16_8_2026": ["9:00 am"]
+  }
+}
+```
+
+**Booking Logic:**
+1. Receive `{ docId, slotDate, slotTime }` from the client
+2. Fetch the doctor document and verify `available === true`
+3. Check `slots_booked[slotDate]` — if the array includes `slotTime`, reject (slot taken)
+4. Append `slotTime` to the array (or create the array if date key doesn't exist)
+5. Save the appointment document with denormalized `docData` and `userData` snapshots
+6. Update the doctor's `slots_booked` field atomically
+
+**Cancellation Logic:**
+1. Mark the appointment as `cancelled: true`
+2. Remove the `slotTime` from `slots_booked[slotDate]` via `.filter()`
+3. Update the doctor document
+
+**Admin Edit/Reschedule Logic:**
+1. Validate the appointment is neither cancelled nor completed
+2. If doctor or slot has changed, check new slot availability
+3. Free the old slot on the old doctor
+4. Book the new slot on the new doctor
+5. Update appointment with new `docId`, `docData`, `slotDate`, `slotTime`, and `amount`
+
+---
+
+## 🔄 Data Flow
+
+### Appointment Booking Flow (End-to-End)
+
 ```mermaid
 sequenceDiagram
     actor Patient
-    participant Frontend
-    participant Backend
-    participant MongoDB
-    participant Razorpay
+    participant Frontend as Patient Frontend
+    participant Backend as Express API
+    participant MongoDB as MongoDB Atlas
+    participant Razorpay as Razorpay Gateway
+    participant Email as Nodemailer (Gmail)
 
-    Patient->>Frontend: Selects Doctor & Time Slot
-    Frontend->>Backend: POST /api/user/book-appointment (Token)
-    Backend->>MongoDB: Check Slot Availability
-    alt Slot Available
-        MongoDB-->>Backend: Confirmed
-        Backend->>Razorpay: Initialize Order (Amount)
-        Razorpay-->>Backend: Order ID
-        Backend->>MongoDB: Create Appointment (Status: Pending)
-        Backend-->>Frontend: Success + Razorpay Checkout Details
-        Patient->>Razorpay: Completes Payment
-        Razorpay->>Backend: Webhook / Verification
-        Backend->>MongoDB: Update Appointment (Status: Paid)
-        Backend-->>Frontend: Booking Confirmed
-    else Slot Unavailable
-        MongoDB-->>Backend: Error: Slot Booked
-        Backend-->>Frontend: Error Response
+    Patient->>Frontend: Select doctor, date & time slot
+    Frontend->>Backend: POST /api/user/book-appointment<br/>{docId, slotDate, slotTime}<br/>Header: token
+
+    Backend->>Backend: authUser middleware<br/>Verify JWT → extract userId
+
+    Backend->>MongoDB: Find Doctor by docId
+    alt Doctor unavailable
+        MongoDB-->>Backend: available: false
+        Backend-->>Frontend: ❌ "Doctor not available"
     end
+
+    Backend->>Backend: Check slots_booked[slotDate]
+    alt Slot already booked
+        Backend-->>Frontend: ❌ "Slot not available"
+    end
+
+    Backend->>MongoDB: Find User by userId
+    Backend->>MongoDB: Create Appointment document<br/>(userId, docId, slotDate, slotTime,<br/>amount, userData, docData)
+    Backend->>MongoDB: Update Doctor.slots_booked<br/>Push slotTime to date array
+
+    Backend->>Email: Send confirmation email<br/>to patient's email address
+    Backend-->>Frontend: ✅ "Appointment Booked"
+
+    Note over Patient, Frontend: Patient views appointment<br/>in My Appointments page
+
+    Patient->>Frontend: Click "Pay Online"
+    Frontend->>Backend: POST /api/user/payment-razorpay<br/>{appointmentId}
+    Backend->>Razorpay: Create Order<br/>(amount × 100, currency, receipt)
+    Razorpay-->>Backend: Order object (order_id)
+    Backend-->>Frontend: Order details
+
+    Frontend->>Razorpay: Open Razorpay Checkout modal
+    Patient->>Razorpay: Complete payment
+    Razorpay-->>Frontend: {razorpay_order_id,<br/>razorpay_payment_id,<br/>razorpay_signature}
+
+    Frontend->>Backend: POST /api/user/verifyRazorpay<br/>{order_id, payment_id, signature}
+    Backend->>Backend: HMAC-SHA256 signature<br/>verification
+    Backend->>Razorpay: Fetch order status
+    alt Payment successful
+        Backend->>MongoDB: Update appointment<br/>payment: true
+        Backend-->>Frontend: ✅ "Payment Successful"
+    else Verification failed
+        Backend-->>Frontend: ❌ "Payment Failed"
+    end
+```
+
+### Authentication Flow
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Client as React App
+    participant API as Express API
+    participant DB as MongoDB
+
+    Note over User, DB: User Registration
+
+    User->>Client: Fill name, email, password
+    Client->>API: POST /api/user/register
+    API->>API: Validate email (validator.js)<br/>Check password length ≥ 8
+    API->>API: bcrypt.hash(password, salt=10)
+    API->>DB: Save new User document
+    API->>API: jwt.sign({id: user._id}, JWT_SECRET)
+    API-->>Client: {success: true, token}
+    Client->>Client: Store token in localStorage
+
+    Note over User, DB: User Login
+
+    User->>Client: Fill email, password
+    Client->>API: POST /api/user/login
+    API->>DB: Find user by email
+    API->>API: bcrypt.compare(password, hash)
+    API->>API: jwt.sign({id: user._id}, JWT_SECRET)
+    API-->>Client: {success: true, token}
+
+    Note over User, DB: Admin Login (Static Credentials)
+
+    User->>Client: Fill email, password
+    Client->>API: POST /api/admin/login
+    API->>API: Compare with env vars<br/>ADMIN_EMAIL + ADMIN_PASSWORD
+    API->>API: jwt.sign(email+password, JWT_SECRET)
+    API-->>Client: {success: true, token}
+
+    Note over User, DB: Doctor Login
+
+    User->>Client: Fill email, password
+    Client->>API: POST /api/doctor/login
+    API->>DB: Find doctor by email
+    API->>API: bcrypt.compare(password, hash)
+    API->>API: jwt.sign({id: doctor._id},<br/>JWT_SECRET, {expiresIn: '7d'})
+    API-->>Client: {success: true, token}
 ```
 
 ---
 
 ## 🗂 Project Structure
-A modular, scalable monorepo-style structure separates the patient client, staff client, and server logic.
 
-```text
-Doctor-Appointment-System/
-├── admin/                     # 🛡️ React Application for Admins & Doctors
-│   ├── src/
-│   │   ├── context/           # AppContext, AdminContext, DoctorContext
-│   │   ├── pages/Admin/       # Admin views (AddDoctor, Dashboard, etc.)
-│   │   └── pages/Doctor/      # Doctor views (DoctorDashboard, etc.)
-├── backend/                   # ⚙️ Express.js REST API
-│   ├── config/                # MongoDB, Cloudinary, Razorpay init
-│   ├── controllers/           # adminController, userController, etc.
-│   ├── middlewares/           # authUser, authAdmin, authDoctor, multer
-│   ├── models/                # User, Doctor, Appointment schemas
-│   └── routes/                # Express router endpoints
-└── frontend/                  # 🧑‍⚕️ React Application for Patients
-    ├── src/
-    │   ├── components/        # Reusable UI components (Navbar, Banner)
-    │   ├── context/           # Global state
-    │   └── pages/             # Route pages (Home, Doctors, Profile, etc.)
+```
+Doctor-Appoinment-Booking-System/
+│
+├── frontend/                          # 🧑‍⚕️ Patient Portal (React + Vite)
+│   ├── .env                           # VITE_BACKEND_URL, VITE_RAZORPAY_KEY_ID
+│   ├── index.html                     # SPA entry point
+│   ├── vite.config.js                 # Vite + Tailwind v4 plugin
+│   ├── package.json                   # React 19, Tailwind v4, Framer Motion, Axios
+│   └── src/
+│       ├── main.jsx                   # React DOM root + BrowserRouter + Context
+│       ├── App.jsx                    # Route definitions (8 routes)
+│       ├── index.css                  # Tailwind directives + global styles
+│       ├── assets/                    # Static images and asset exports
+│       ├── context/
+│       │   └── AppContext.jsx         # Global state (doctors, token, userData, theme, siteSettings)
+│       ├── components/
+│       │   ├── Navbar.jsx             # Navigation bar with auth-aware menu
+│       │   ├── Footer.jsx             # Site footer
+│       │   ├── Header.jsx             # Hero/banner section
+│       │   ├── Banner.jsx             # Call-to-action banner
+│       │   ├── TopDoctors.jsx         # Featured doctors carousel
+│       │   ├── SpcialityMenu.jsx      # Speciality filter navigation
+│       │   └── RelatedDoctors.jsx     # Related doctors by speciality
+│       └── pages/
+│           ├── Home.jsx               # Landing page (Header + SpecialityMenu + TopDoctors + Banner)
+│           ├── Doctors.jsx            # Doctor listing with speciality filter
+│           ├── Appointment.jsx        # Individual doctor booking with slot picker
+│           ├── Login.jsx              # Login / Sign Up toggle form
+│           ├── MyProfile.jsx          # User profile edit (with image upload)
+│           ├── MyAppointments.jsx     # Appointment list with payment & cancellation
+│           ├── About.jsx              # About page
+│           └── Contact.jsx            # Contact information page
+│
+├── admin/                             # 🛡️ Admin + Doctor Portal (React + Vite)
+│   ├── .env                           # VITE_BACKEND_URL
+│   ├── index.html                     # SPA entry point
+│   ├── vite.config.js                 # Vite + Tailwind v4 plugin
+│   ├── package.json                   # React 19, Tailwind v4, Framer Motion, Axios
+│   └── src/
+│       ├── main.jsx                   # React DOM root + BrowserRouter + 3 Context Providers
+│       ├── App.jsx                    # Conditional rendering: Login vs Dashboard (aToken/dToken)
+│       ├── index.css                  # Tailwind directives + CSS custom properties
+│       ├── assets/                    # Icons and image assets
+│       ├── context/
+│       │   ├── AppContext.jsx         # Shared: theme toggle, sidebar, date formatting, age calc
+│       │   ├── AdminContext.jsx       # Admin state: doctors CRUD, appointments CRUD, dashboard
+│       │   └── DoctorContext.jsx      # Doctor state: appointments, dashboard, profile
+│       ├── components/
+│       │   ├── Navbar.jsx             # Top navigation with role indicator + theme toggle + logout
+│       │   ├── Sidebar.jsx            # Responsive sidebar with role-based nav links + animations
+│       │   └── EditAppointmentModal.jsx # Modal for rescheduling appointments (admin only)
+│       └── pages/
+│           ├── Login.jsx              # Unified login (Admin/Doctor toggle)
+│           ├── Admin/
+│           │   ├── Dashboard.jsx      # KPI cards + latest appointments
+│           │   ├── AllAppointments.jsx # Full appointment list with cancel/edit/delete
+│           │   ├── AddDoctor.jsx      # Multi-field form with image upload
+│           │   ├── DoctorList.jsx     # Doctor grid with availability toggle + delete
+│           │   └── SiteSettings.jsx   # Site image configuration upload
+│           └── Doctor/
+│               ├── DoctorDashboard.jsx # Doctor-specific KPIs (earnings, patients, appointments)
+│               ├── DoctorAppointments.jsx # Assigned appointment list with complete/cancel
+│               └── DoctorProfile.jsx  # Edit fees, address, availability toggle
+│
+├── backend/                           # ⚙️ Express.js REST API
+│   ├── .env                           # All server configuration (see Environment Variables)
+│   ├── package.json                   # Express 5, Mongoose 8, Razorpay, Cloudinary, Nodemailer
+│   ├── server.js                      # Entry point: middleware pipeline, route mounting, error handler
+│   ├── config/
+│   │   ├── mongodb.js                 # Mongoose connection to MongoDB Atlas
+│   │   ├── cloudinary.js              # Cloudinary SDK configuration
+│   │   └── nodemailer.js              # Gmail SMTP transporter + sendEmail utility
+│   ├── middlewares/
+│   │   ├── authAdmin.js               # JWT verify → match against ADMIN_EMAIL+ADMIN_PASSWORD
+│   │   ├── authDoctor.js              # JWT verify → extract doctor ID (req.docId)
+│   │   ├── authUser.js                # JWT verify → extract user ID (req.userId)
+│   │   └── multer.js                  # Disk storage config (uploads/ directory)
+│   ├── models/
+│   │   ├── userModel.js               # User schema (name, email, password, image, address, etc.)
+│   │   ├── doctorModel.js             # Doctor schema (name, speciality, fees, slots_booked, etc.)
+│   │   ├── appointmentModel.js        # Appointment schema (userId, docId, slot, payment, status)
+│   │   └── siteSettingModel.js        # Key-value setting schema with timestamps
+│   ├── controllers/
+│   │   ├── userController.js          # Register, login, profile, booking, payment, cancellation
+│   │   ├── doctorController.js        # Login, appointments, complete/cancel, dashboard, profile
+│   │   ├── adminController.js         # Login, add/delete doctor, appointments CRUD, dashboard
+│   │   └── siteController.js          # Get settings, upload setting image
+│   ├── routes/
+│   │   ├── userRoute.js               # 9 endpoints with authUser + rateLimiter
+│   │   ├── doctorRoute.js             # 8 endpoints with authDoctor
+│   │   ├── adminRoute.js              # 10 endpoints with authAdmin + rateLimiter
+│   │   └── siteRoute.js               # 1 public endpoint
+│   └── uploads/                       # Temporary multer file storage (before Cloudinary upload)
+│
+├── .gitignore                         # node_modules, dist, .env, editor files
+└── README.md                          # This file
 ```
 
 ---
 
-## 🗃 Database Schema
+## 🗃 Database Architecture
 
-| Collection | Description | Key Fields |
-| :--- | :--- | :--- |
-| **`Users`** | Patient profiles | `name`, `email`, `password`, `image`, `address`, `dob` |
-| **`Doctors`** | Medical professionals | `name`, `email`, `speciality`, `degree`, `fees`, `slots_booked`, `available` |
-| **`Appointments`** | Booking ledgers | `userId`, `docId`, `slotDate`, `slotTime`, `amount`, `payment`, `status` |
-| **`SiteSettings`** | Global configurations | `currency`, `hospitalName`, `contactInfo` |
+### Entity-Relationship Diagram
+
+```mermaid
+erDiagram
+    USER {
+        ObjectId _id PK
+        String name
+        String email UK
+        String password
+        String image
+        Object address
+        String gender
+        String dob
+        String phone
+    }
+
+    DOCTOR {
+        ObjectId _id PK
+        String name
+        String email UK
+        String password
+        String image
+        String speciality
+        String degree
+        String experience
+        String about
+        Boolean available
+        Number fees
+        Object address
+        Number date
+        Object slots_booked
+    }
+
+    APPOINTMENT {
+        ObjectId _id PK
+        String userId FK
+        String docId FK
+        String slotDate
+        String slotTime
+        Object userData
+        Object docData
+        Number amount
+        Number date
+        Boolean cancelled
+        Boolean payment
+        Boolean isCompleted
+    }
+
+    SITESETTING {
+        ObjectId _id PK
+        String key UK
+        String value
+        Date createdAt
+        Date updatedAt
+    }
+
+    USER ||--o{ APPOINTMENT : "books"
+    DOCTOR ||--o{ APPOINTMENT : "receives"
+```
+
+### Collection Details
+
+<table>
+<tr><th>Collection</th><th>Key Fields</th><th>Notes</th></tr>
+<tr>
+<td><strong>users</strong></td>
+<td>
+
+`name` · `email` (unique) · `password` (bcrypt) · `image` (base64 default) · `address` ({line1, line2}) · `gender` · `dob` · `phone`
+
+</td>
+<td>Default avatar is a base64-encoded PNG. Address stored as nested object.</td>
+</tr>
+<tr>
+<td><strong>doctors</strong></td>
+<td>
+
+`name` · `email` (unique) · `password` (bcrypt) · `image` (Cloudinary URL) · `speciality` · `degree` · `experience` · `about` · `available` (boolean) · `fees` (number) · `address` (object) · `slots_booked` (object map) · `date` (timestamp)
+
+</td>
+<td>
+
+`slots_booked` uses `{minimize: false}` Mongoose option to persist empty objects. Structure: `{ "dd_mm_yyyy": ["time1", "time2"] }`
+
+</td>
+</tr>
+<tr>
+<td><strong>appointments</strong></td>
+<td>
+
+`userId` · `docId` · `slotDate` · `slotTime` · `userData` (snapshot) · `docData` (snapshot) · `amount` · `date` (timestamp) · `cancelled` · `payment` · `isCompleted`
+
+</td>
+<td>
+
+`userData` and `docData` are denormalized snapshots captured at booking time, ensuring appointment history remains accurate even if profiles change later.
+
+</td>
+</tr>
+<tr>
+<td><strong>sitesettings</strong></td>
+<td>
+
+`key` (unique) · `value` · `createdAt` · `updatedAt`
+
+</td>
+<td>
+
+Uses upsert pattern — `findOneAndUpdate` with `{upsert: true}` for create-or-update semantics. Stores image URLs uploaded via Cloudinary.
+
+</td>
+</tr>
+</table>
 
 ---
 
 ## 🔌 API Documentation
-*Note: All endpoints require appropriate JWT Bearer tokens.*
 
-### 👨‍💼 Admin Routes (`/api/admin`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/add-doctor` | Add a new doctor (Requires `authAdmin` + `multer` form-data) |
-| `POST` | `/login` | Authenticate administrator |
-| `GET`  | `/appointments` | Fetch all system appointments |
-| `GET`  | `/dashboard` | Fetch KPI data (users, docs, total earnings) |
-
-### 🩺 Doctor Routes (`/api/doctor`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/login` | Authenticate doctor |
-| `GET`  | `/appointments` | Get appointments assigned to the logged-in doctor |
-| `POST` | `/update-profile` | Update personal details & availability |
+> All endpoints return JSON in the format: `{ success: boolean, message?: string, ...data }`.
+> Protected endpoints require the appropriate JWT token in headers.
 
 ### 🧑‍⚕️ User Routes (`/api/user`)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/register` | Create a new patient account |
-| `POST` | `/login` | Authenticate user |
-| `POST` | `/book-appointment`| Book a doctor's slot & initialize Razorpay |
-| `GET`  | `/appointments` | Fetch user's booking history |
+
+| Method | Endpoint | Auth | Middleware | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `POST` | `/register` | ❌ | `rateLimiter` | Register new patient (validates email format & password length ≥ 8) |
+| `POST` | `/login` | ❌ | `rateLimiter` | Authenticate patient, returns JWT |
+| `GET` | `/get-profile` | `token` | `authUser` | Fetch authenticated user's profile (excludes password) |
+| `POST` | `/update-profile` | `token` | `authUser` + `multer` | Update profile fields + optional image upload to Cloudinary |
+| `POST` | `/book-appointment` | `token` | `authUser` | Book a doctor's slot; sends confirmation email |
+| `GET` | `/appointments` | `token` | `authUser` | List user's appointments (paginated: `?page=1&limit=50`) |
+| `POST` | `/cancel-appointment` | `token` | `authUser` | Cancel appointment + release slot + send cancellation email |
+| `POST` | `/payment-razorpay` | `token` | `authUser` | Create Razorpay order for an appointment |
+| `POST` | `/verifyRazorpay` | `token` | `authUser` | Verify Razorpay payment signature (HMAC-SHA256) and mark as paid |
+
+### 👨‍💼 Admin Routes (`/api/admin`)
+
+| Method | Endpoint | Auth | Middleware | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `POST` | `/login` | ❌ | `rateLimiter` (5/15min) | Authenticate admin against env credentials |
+| `POST` | `/add-doctor` | `atoken` | `authAdmin` + `multer` | Create new doctor with image upload |
+| `POST` | `/all-doctors` | `atoken` | `authAdmin` | List all doctors (excludes passwords) |
+| `POST` | `/change-availability` | `atoken` | `authAdmin` | Toggle doctor's availability flag |
+| `GET` | `/appointments` | `atoken` | `authAdmin` | Fetch all system appointments |
+| `POST` | `/cancel-appointment` | `atoken` | `authAdmin` | Cancel appointment + release slot |
+| `POST` | `/delete-appointment` | `atoken` | `authAdmin` | Permanently delete appointment + free slot if active |
+| `POST` | `/update-appointment` | `atoken` | `authAdmin` | Reschedule: change doctor, date, or time with slot validation |
+| `POST` | `/delete-doctor` | `atoken` | `authAdmin` | Permanently delete a doctor record |
+| `GET` | `/dashboard` | `atoken` | `authAdmin` | Dashboard KPIs: doctor/patient/appointment counts + latest 5 |
+| `POST` | `/upload-setting-image` | `atoken` | `authAdmin` + `multer` | Upload/update a site setting image via Cloudinary (upsert) |
+
+### 🩺 Doctor Routes (`/api/doctor`)
+
+| Method | Endpoint | Auth | Middleware | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `GET` | `/list` | ❌ | — | Public: paginated doctor listing (`?page=1&limit=50`), excludes password & email |
+| `POST` | `/login` | ❌ | — | Authenticate doctor, returns JWT (7-day expiry) |
+| `GET` | `/appointments` | `dtoken` | `authDoctor` | Get appointments assigned to the authenticated doctor |
+| `POST` | `/complete-appointment` | `dtoken` | `authDoctor` | Mark appointment as completed (also sets `payment: true`) |
+| `POST` | `/cancel-appointment` | `dtoken` | `authDoctor` | Cancel an assigned appointment |
+| `GET` | `/dashboard` | `dtoken` | `authDoctor` | Doctor KPIs: earnings, appointment count, unique patients, latest 5 |
+| `GET` | `/profile` | `dtoken` | `authDoctor` | Get doctor's own profile (excludes password) |
+| `POST` | `/update-profile` | `dtoken` | `authDoctor` | Update fees, address, availability |
+
+### 🌐 Site Routes (`/api/site`)
+
+| Method | Endpoint | Auth | Description |
+| :--- | :--- | :---: | :--- |
+| `GET` | `/settings` | ❌ | Fetch all site settings as a key-value object (public) |
+
+---
+
+## 🔐 Authentication & Authorization
+
+### Token Architecture
+
+| Role | Header Key | Token Payload | Creation | Verification Middleware |
+| :--- | :--- | :--- | :--- | :--- |
+| **Patient** | `token` | `{ id: userId }` | `jwt.sign({id: user._id}, JWT_SECRET)` | `authUser.js` → `req.userId` |
+| **Doctor** | `dtoken` | `{ id: doctorId }` | `jwt.sign({id: doctor._id}, JWT_SECRET, {expiresIn: '7d'})` | `authDoctor.js` → `req.docId` |
+| **Admin** | `atoken` | `email + password` (string) | `jwt.sign(email + password, JWT_SECRET)` | `authAdmin.js` → verifies decoded value matches env vars |
+
+### Security Measures
+
+| Measure | Implementation |
+| :--- | :--- |
+| **Password Hashing** | bcrypt with salt rounds = 10 |
+| **CORS Whitelist** | Only `FRONTEND_URL` and `ADMIN_URL` origins allowed |
+| **HTTP Security Headers** | Helmet middleware applied globally |
+| **Rate Limiting** | Admin login: 5 req/15min; User login/register: 10 req/15min |
+| **Payment Verification** | HMAC-SHA256 signature verification + server-side order status check |
+| **Token Expiry Handling** | Frontend auto-clears token and redirects on 401 or "Token expired" |
+| **Sensitive Data Exclusion** | `.select('-password')` on all user/doctor queries; `slots_booked` stripped from appointment doc snapshots |
 
 ---
 
 ## ⚙️ Installation & Setup
 
 ### Prerequisites
-- Node.js (v18.x or higher)
-- MongoDB (Atlas URI or Local Instance)
-- Cloudinary Account (API Key & Secret)
-- Razorpay Account (Key ID & Secret)
 
-### 1. Clone the repository
+- **Node.js** v18.x or higher
+- **MongoDB** (MongoDB Atlas URI recommended, or local instance)
+- **Cloudinary** account ([cloudinary.com](https://cloudinary.com))
+- **Razorpay** account ([razorpay.com](https://razorpay.com))
+- **Gmail App Password** for Nodemailer (enable 2FA → generate App Password)
+
+### 1. Clone the Repository
+
 ```bash
-git clone https://github.com/your-username/Doctor-Appointment-Booking-System.git
-cd Doctor-Appointment-Booking-System
+git clone https://github.com/nzaman7878/Doctor-Appoinment-Booking-System-Using-MERN-stack.git
+cd Doctor-Appoinment-Booking-System-Using-MERN-stack
 ```
 
-### 2. Setup Backend Server
+### 2. Backend Setup
+
 ```bash
 cd backend
 npm install
-npm run dev
 ```
 
-### 3. Setup Frontend (Patient App)
-Open a new terminal window:
+Create a `.env` file in `backend/` (see [Environment Variables](#-environment-variables) below), then:
+
+```bash
+npm run dev       # Starts with nodemon on port 4000
+# or
+npm start         # Production: node server.js
+```
+
+### 3. Patient Portal (Frontend) Setup
+
+Open a **new terminal**:
+
 ```bash
 cd frontend
 npm install
-npm run dev
 ```
 
-### 4. Setup Admin/Doctor Panel
-Open a third terminal window:
+Create a `.env` file in `frontend/`:
+
+```env
+VITE_BACKEND_URL=http://localhost:4000
+VITE_RAZORPAY_KEY_ID=rzp_test_xxxxx
+```
+
+```bash
+npm run dev       # Starts on http://localhost:5173
+```
+
+### 4. Admin/Doctor Portal Setup
+
+Open a **third terminal**:
+
 ```bash
 cd admin
 npm install
-npm run dev
+```
+
+Create a `.env` file in `admin/`:
+
+```env
+VITE_BACKEND_URL=http://localhost:4000
+```
+
+```bash
+npm run dev       # Starts on http://localhost:5174
 ```
 
 ---
 
 ## 🔐 Environment Variables
-Create a `.env` file in your `backend` directory and add the following configurations:
 
-| Variable | Description | Example / Note |
-| :--- | :--- | :--- |
-| `PORT` | API Server Port | `4000` |
-| `MONGODB_URI` | Connection string | `mongodb+srv://user:pass@cluster...` |
-| `JWT_SECRET` | Token signature key | `your_super_secret_key` |
-| `ADMIN_EMAIL` | Super admin email | `admin@hospital.com` |
-| `ADMIN_PASSWORD` | Super admin password | `securepass123` |
-| `CLOUDINARY_NAME` | Cloudinary cloud name | `dyxxxxx` |
-| `CLOUDINARY_API_KEY`| Cloudinary key | `1234567890` |
-| `CLOUDINARY_SECRET_KEY`| Cloudinary secret | `_abcxyz123...` |
-| `RAZORPAY_KEY_ID` | Razorpay pub key | `rzp_test_123...` |
-| `RAZORPAY_KEY_SECRET`| Razorpay secret | `abcxyz...` |
-| `FRONTEND_URL` | CORS Allowed Origin | `http://localhost:5173` |
-| `ADMIN_URL` | CORS Allowed Origin | `http://localhost:5174` |
+### Backend (`backend/.env`)
+
+| Variable | Required | Description | Example |
+| :--- | :---: | :--- | :--- |
+| `MONGODB_URI` | ✅ | MongoDB Atlas connection string | `mongodb+srv://user:pass@cluster.xxx.mongodb.net/dbname` |
+| `JWT_SECRET` | ✅ | Secret key for signing JWTs | `your_super_secret_key_here` |
+| `ADMIN_EMAIL` | ✅ | Static admin login email | `admin@hospital.com` |
+| `ADMIN_PASSWORD` | ✅ | Static admin login password | `SecureAdmin@123` |
+| `CLOUDINARY_NAME` | ✅ | Cloudinary cloud name | `dxxxxxxx` |
+| `CLOUDINARY_API_KEY` | ✅ | Cloudinary API key | `123456789012345` |
+| `CLOUDINARY_SECRET_KEY` | ✅ | Cloudinary API secret | `_abcXYZ123...` |
+| `RAZORPAY_KEY_ID` | ✅ | Razorpay public key ID | `rzp_test_xxxxx` |
+| `RAZORPAY_KEY_SECRET` | ✅ | Razorpay secret key | `abcxyz123...` |
+| `CURRENCY` | ✅ | Payment currency code | `INR` |
+| `EMAIL_USER` | ⚠️ | Gmail address for sending emails | `your.email@gmail.com` |
+| `EMAIL_PASS` | ⚠️ | Gmail App Password (not regular password) | `abcd efgh ijkl mnop` |
+| `PORT` | ❌ | API server port (defaults to `4000`) | `4000` |
+| `FRONTEND_URL` | ❌ | CORS: Patient portal origin (defaults to `http://localhost:5173`) | `https://your-frontend.vercel.app` |
+| `ADMIN_URL` | ❌ | CORS: Admin portal origin (defaults to `http://localhost:5174`) | `https://your-admin.vercel.app` |
+
+> ⚠️ `EMAIL_USER` and `EMAIL_PASS` are optional. If not set, emails are logged to console instead of being sent (graceful degradation).
+
+### Frontend (`frontend/.env`)
+
+| Variable | Required | Description |
+| :--- | :---: | :--- |
+| `VITE_BACKEND_URL` | ✅ | Backend API base URL |
+| `VITE_RAZORPAY_KEY_ID` | ✅ | Razorpay public key (for checkout widget) |
+
+### Admin (`admin/.env`)
+
+| Variable | Required | Description |
+| :--- | :---: | :--- |
+| `VITE_BACKEND_URL` | ✅ | Backend API base URL |
 
 ---
 
-## 🚀 Deployment Workflow
+## 💻 Development Workflow
 
-For production, follow these steps:
-1. **Backend Deployment**: Host the Node.js server on **Render**, **Railway**, or **AWS EC2**. Ensure you add the production URLs of your frontends to the `allowedOrigins` array in `server.js` (or via `.env`).
-2. **Frontend Deployment**: Host the `frontend` and `admin` React apps separately on **Vercel** or **Netlify**.
-3. **Build Commands**: Ensure you set the Root Directory correctly in Vercel for both apps, and use `npm run build`. 
-4. Add the deployed Backend URL to your frontend's environment variable (e.g., `VITE_BACKEND_URL`).
+```bash
+# Terminal 1 — Backend (auto-restarts on changes)
+cd backend && npm run dev
+
+# Terminal 2 — Patient Frontend (HMR enabled)
+cd frontend && npm run dev
+
+# Terminal 3 — Admin/Doctor Panel (HMR enabled)
+cd admin && npm run dev
+```
+
+| Port | Service |
+| :--- | :--- |
+| `4000` | Express API server |
+| `5173` | Patient portal (Vite dev server) |
+| `5174` | Admin/Doctor portal (Vite dev server) |
+
+### Build for Production
+
+```bash
+# Frontend
+cd frontend && npm run build    # Output: frontend/dist/
+
+# Admin Panel
+cd admin && npm run build       # Output: admin/dist/
+```
+
+---
+
+## 🚀 Deployment
+
+### Recommended Architecture
+
+```
+┌─────────────────────┐     ┌─────────────────────┐
+│   Vercel / Netlify   │     │   Vercel / Netlify   │
+│   Patient Portal     │     │   Admin Portal        │
+│   (frontend/dist)    │     │   (admin/dist)        │
+└────────┬────────────┘     └────────┬────────────┘
+         │ HTTPS                      │ HTTPS
+         └──────────┬─────────────────┘
+                    │
+         ┌──────────▼──────────┐
+         │  Render / Railway   │
+         │  Backend API        │
+         │  (backend/)         │
+         └──────────┬──────────┘
+                    │
+    ┌───────────────┼───────────────┐
+    │               │               │
+┌───▼───┐    ┌──────▼──────┐  ┌────▼────┐
+│MongoDB│    │ Cloudinary  │  │Razorpay │
+│ Atlas │    │    CDN      │  │Gateway  │
+└───────┘    └─────────────┘  └─────────┘
+```
+
+### Step-by-Step
+
+1. **Backend** → Deploy to **Render**, **Railway**, or **AWS EC2**
+   - Set all `backend/.env` variables in the platform's environment settings
+   - Set `FRONTEND_URL` and `ADMIN_URL` to your deployed frontend origins
+   - Build command: `npm install`
+   - Start command: `npm start`
+
+2. **Frontend** → Deploy to **Vercel** or **Netlify**
+   - Root directory: `frontend`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Environment variables: `VITE_BACKEND_URL`, `VITE_RAZORPAY_KEY_ID`
+
+3. **Admin Panel** → Deploy to **Vercel** or **Netlify** (separate project)
+   - Root directory: `admin`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Environment variables: `VITE_BACKEND_URL`
+
+4. **Post-Deployment** — Update backend `.env` with deployed frontend URLs for CORS whitelisting
+
+---
+
+## 🧠 Technical Decisions
+
+| Decision | Rationale |
+| :--- | :--- |
+| **Denormalized `userData`/`docData` in Appointments** | Appointment history shows the doctor/patient info at the time of booking, even if profiles are later updated or deleted. Avoids expensive joins on read-heavy queries. |
+| **`slots_booked` as a flat object map** | Allows O(1) date lookup and O(n) time lookup within a date. No separate collection needed. The `{minimize: false}` Mongoose option ensures empty objects persist. |
+| **Separate auth middleware per role** | Each role uses different token header keys (`token`, `dtoken`, `atoken`), enabling a single API server to serve all three portals without route-level role checks. |
+| **Static admin credentials (env vars)** | The admin is a single super-user. No admin registration flow needed. Simplifies the initial setup. |
+| **Multer disk storage → Cloudinary** | Files are first saved to `uploads/` on disk, then uploaded to Cloudinary for CDN delivery. This two-step approach avoids memory issues with large images. |
+| **No Redux** | React Context API is sufficient for this scale. Three separate Context providers (Admin, Doctor, App) keep state isolated and avoid unnecessary re-renders. |
+| **Express 5** | Supports async error handling natively, reducing boilerplate try-catch in route handlers. |
+| **Tailwind CSS v4** | Latest version with built-in Vite plugin (`@tailwindcss/vite`), eliminating PostCSS configuration. |
+| **Razorpay HMAC Verification** | Server-side cryptographic verification (`crypto.createHmac`) ensures payment authenticity — the client cannot fake payment confirmations. |
+| **Nodemailer Graceful Degradation** | If `EMAIL_USER`/`EMAIL_PASS` are not configured, emails are logged to console instead of throwing errors. Development-friendly. |
+
+---
+
+## 🔮 Future Improvements
+
+- [ ] **Stripe Integration** — Add Stripe as an alternative payment gateway for international users
+- [ ] **WebSocket Notifications** — Real-time appointment updates without page refresh
+- [ ] **Doctor Search** — Full-text search by name, degree, or location
+- [ ] **Appointment Reminders** — Automated email/SMS reminders before appointment time
+- [ ] **Patient Reviews & Ratings** — Let patients rate and review doctors after visits
+- [ ] **Admin User Management** — Manage patient accounts (block/unblock)
+- [ ] **Prescription Module** — Allow doctors to upload digital prescriptions after consultation
+- [ ] **Test Suite** — Add unit tests (Jest) and integration tests (Supertest) for API endpoints
+- [ ] **API Rate Limiting per User** — Token-based rate limiting in addition to IP-based
+- [ ] **Password Reset** — Email-based OTP or link for password recovery
+- [ ] **Docker Compose** — Containerized local development with MongoDB, backend, and frontend services
 
 ---
 
 ## 🤝 Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions are welcome! Follow these steps:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/your-feature`
+3. **Commit** your changes: `git commit -m "feat: add your feature"`
+4. **Push** to the branch: `git push origin feature/your-feature`
+5. **Open** a Pull Request
+
+Please ensure your code follows the existing code style and includes meaningful commit messages.
 
 ---
 
 ## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
+
 <p align="center">
-  <i>Developed with ❤️ by <a href="https://github.com/your-username">NURUZZAMAN</a></i>
+  Developed with ❤️ by <a href="https://github.com/nzaman7878"><strong>NURUZZAMAN</strong></a>
 </p>
