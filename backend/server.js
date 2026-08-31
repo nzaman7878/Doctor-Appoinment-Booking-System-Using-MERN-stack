@@ -21,17 +21,23 @@ connectCloudinary()
 app.use(helmet()) // Security headers
 app.use(express.json())
 
-// Configure CORS for specific origins (Frontend and Admin URLs)
+// Normalize URLs by removing trailing slashes
+const normalizeUrl = (url) => url ? url.replace(/\/$/, '') : '';
+
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5173',
-  process.env.ADMIN_URL || 'http://localhost:5174'
+  normalizeUrl(process.env.FRONTEND_URL) || 'http://localhost:5173',
+  normalizeUrl(process.env.ADMIN_URL) || 'http://localhost:5174'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) return callback(null, true);
+    
+    const normalizedOrigin = normalizeUrl(origin);
+    if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else {
+      console.warn(`CORS Blocked: Origin ${origin} is not in allowed origins list.`);
       callback(new Error('Not allowed by CORS'));
     }
   },
